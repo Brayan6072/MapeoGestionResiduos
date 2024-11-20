@@ -1,0 +1,152 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+#mapa-del-cut{
+    height: 600px;
+    width: auto;
+}
+.imgbt{
+     height: 90%;
+    width: 40%;
+}
+
+
+
+
+
+.alert-container {
+    background-color: white;
+    border-left: 4px solid #2ecc71;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 90%;
+    animation: pulse 2s infinite;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    transform: translateX(120%);
+    opacity: 0;
+}
+
+.alert-container.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(46, 204, 113, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); }
+}
+
+.alert-header {
+    background-color: #2ecc71;
+    color: white;
+    padding: 15px 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+.alert-content {
+    padding: 20px;
+}
+
+.alert-message {
+    font-size: 1.1em;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.alert-instructions {
+    margin-bottom: 15px;
+    color: #666;
+}
+
+.alert-list {
+    padding-left: 20px;
+    margin-bottom: 0;
+    color: #666;
+}
+
+.alert-footer {
+    padding: 0 20px 20px;
+    text-align: right;
+}
+
+.alert-button {
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.alert-button:hover, .alert-button:focus {
+    background-color: #27ae60;
+    outline: none;
+}
+
+#show-alert-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#show-alert-button:hover, #show-alert-button:focus {
+    background-color: #27ae60;
+    outline: none;
+}
+
+@media (max-width: 480px) {
+    .alert-container {
+        width: 100%;
+        max-width: none;
+        height: auto;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        transform: translateY(100%);
+    }
+
+    .alert-container.show {
+        transform: translateY(0);
+    }
+
+    .alert-content {
+        max-height: calc(100vh - 200px);
+        overflow-y: auto;
+    }
+
+    .alert-footer {
+        padding-bottom: 20px;
+    }
+
+    #show-alert-button {
+        top: auto;
+        bottom: 20px;
+    }
+}

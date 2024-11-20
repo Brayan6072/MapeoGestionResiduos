@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Mapa Interactivo del Cutonala</title>
+
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <link rel="stylesheet" href="css/Botones.css"/>
+    <link href="css/mapa.css" rel="stylesheet" />
+    <link href="css/styles.css" rel="stylesheet" />
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="css/stylesG.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+</head>
+
+<body ondblclick="ocultarCuadroTexto()">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <p tabindex="1" aria-label="Titulo de la pagina" class="navbar-brand">Mapa Interactivo del Cutonala</p>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item dropdown">
+                    <a tabindex="2" aria-label="Menu desplegable" class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Otros</a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="http://node208364-env-8685750.sp1.br.saveincloud.net.br:13944/login/index">Reportes</a></li>
+                        <li>
+                            <hr class="dropdown-divider" />
+                        </li>
+                        <li><a class="dropdown-item" href="Others/Infografias.pdf">Infografias</a></li>
+                    </ul>                    
+                </li>
+                
+            </ul>
+            
+        </div>
+    </div>
+</nav>
+
+
+
+
+    <div id="alert-container" class="alert-container" role="alert" aria-hidden="true">
+        <header class="alert-header">
+             Reporte de incidencia enviado
+            <button class="close-button" aria-label="Close alert">&times;</button>
+        </header>
+        <div class="alert-content">
+            <p class="alert-message">Tu reporte será atendido lo más rápido posible</p>
+            <p class="alert-instructions">¡Gracias por tu colaboración!</p>
+            
+        </div>
+        <footer class="alert-footer">
+            <button class="alert-button">Cerrar</button>
+        </footer>
+    </div>
+
+<div class="container" ondblclick="ocultarCuadroTexto()">
+    <div class="text-center mt-5">
+        <h1 tabindex="3">¡Conoce tu Universidad!</h1>
+        <p tabindex="4" class="lead">¿A Donde quieres ir?</p>
+    </div>
+
+    <div id="svg-container">
+        <div id="mapa-del-cut"></div>
+    </div>
+
+    <div id="cuadroTexto" class="cuadroTexto">
+        <h4 id="textoCuadro"></h4>
+        <a href="" id="imagenCuadro"></a>
+        <p id="informacionCuadro"></p>
+    </div>
+
+    <div id="cuadroreporte" class="cuadroreporte">
+        <form method="post" name="Reportar">
+
+            <input type="text" id="ub" readonly/>
+
+            <div class="wrappers">
+                Tipo de contenedor  <select id="TpBt" name="TpBts" required>
+            </select>
+            
+
+            </div>
+
+            <div class="wrapper">
+                <label>Estado:</label>
+                <input type="radio"   name="Estado" value="Lleno" id="option-1" class="estado" checked>
+
+                <label for="option-1" class="option option-1">
+                    <div class="dot"></div>
+                    <span>Lleno</span>
+                </label>
+
+                <input type="radio"  name="Estado" value="Danado" id="option-2" class="estado">
+
+                <label for="option-2" class="option option-2">
+                    <div class="dot"></div>
+                    <span>Dañado</span>
+                </label>
+                <input type="radio"   name="Estado" value="Basura Mezclada" class="estado" id="option-3">
+                <label for="option-3" class="option option-3">
+                    <div class="dot"></div>
+                    <span>Basura Mezclada</span>
+                </label>
+            </div>
+            <div class="AccionesR">
+                <button onclick="reportar();" type="button">Reportar</button>
+            </div>
+        </form>
+    </div>
+    
+</div>
+<a id="minijuegolink" tabindex="2" href="http://node208618-env-8685750.sp1.br.saveincloud.net.br:16107/mapa" role="button" ><img width="70px" src="Images/minigame-dark.png" alt=""></a>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="js/Geolocalizacion.js"></script>
+<script src="js/reportes.js"></script>
+</body>
+</html>

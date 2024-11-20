@@ -1,0 +1,89 @@
+
+
+.Consultar {
+  margin: auto;
+  width: 50%;
+  padding: 20px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.Consultar h1{
+  text-align: center;
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.Consultar table {
+  width: 100%;
+}
+
+.Consultar table td {
+  padding: 10px;
+}
+
+.Consultar table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.Consultar table tr:hover {
+  background-color: #e0e0e0;
+}
+
+.tabla-contenedor{
+  margin: auto;
+  width: 50%;
+  padding: 20px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.tabla-contenedor h1{
+  text-align: center;
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.tabla-contenedor table {
+  width: 100%;
+}
+
+.tabla-contenedor table td {
+  padding: 10px;
+}
+
+.tabla-contenedor table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.tabla-contenedor table tr:hover {
+  background-color: #e0e0e0;
+}
+
+.tabla-contenedor input[type="text"] {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.tabla-contenedor input[type="submit"] {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.tabla-contenedor input[type="submit"]:hover {
+  background-color: #45a049;
+}
