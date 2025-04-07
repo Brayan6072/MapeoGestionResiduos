@@ -4,15 +4,21 @@ import { privateGuard, publicGuard } from './core/auth.guard';
 export const routes: Routes = [
     {
         canActivateChild: [publicGuard()],
+        path: 'mapa',
+        loadComponent: () => import('./home/home.component'),
+        loadChildren: () => import('./home/home.routes'),
+    },
+    {
+        canActivateChild: [publicGuard()],
         path: 'auth',
         loadChildren: () => import('./auth/features/auth.routes'),
     }, 
-    {
+    /*{
         canActivateChild: [privateGuard()],
         path: 'tasks',
-        loadComponent: () => import('./shared/ui/layout.component'),
+        loadComponent: () => import('./task/features/task-list/task-list.component'),
         loadChildren: () => import('./task/features/task.routes'),
-    },
+    },*/
     {
         canActivateChild: [privateGuard()],
         path: 'dashboard',

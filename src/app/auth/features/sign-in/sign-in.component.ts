@@ -55,17 +55,18 @@ export default class SignInComponent {
     
       await this._authService.signIn({email, password});
       toast.success('Hola nuevamente');
-      this._router.navigate(['/dashboard/home']);
+      this._router.navigate(['/dashboard']);
     }catch(error){
       
       toast.error('error al iniciar con tu usuario');
     }
   }
+  
   async submitWithGoogle() {
     try {
       await this._authService.signInWithGoogle();
       toast.success('Usuario creado con exito');
-      this._router.navigate(['/dashboard/home']);
+      this._router.navigate(['/dashboard']);
     }
     catch (error) {
       toast.error('error al crear usuario');

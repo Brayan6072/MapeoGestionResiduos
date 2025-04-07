@@ -1,0 +1,218 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+:host{
+    --backgroud-color: rgb(33, 37, 41);
+    --main-color: rgb(49, 130, 124);
+    --color-text: white;
+    --color-hover: rgb(68, 68, 67);
+}
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+body{
+    background-color: white;
+}
+header{
+    
+
+    position: fixed;
+    top: 0;
+    z-index: 1200;
+    width: 100%;
+    height: 80px;
+    color: var(--color-text);
+    background-color: var(--backgroud-color);
+}
+header .header-container{
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1280px;
+    height: 100%;
+    margin: 0 auto;
+    padding: 0 30px;
+
+}
+header .logo{
+    
+    display: flex;
+    
+}
+header .logo ion-icon{
+    font-size: 35px;
+    color: white;
+    margin-right: 5px;
+}
+header .logo span{
+    font-size: 25px;
+    font-weight: 600;
+    
+}
+
+header .menu{
+    background-color: var(--backgroud-color);
+    height: auto;
+}
+header .menu ul{
+    
+    display: flex;
+    flex-direction: row;
+}
+header .menu li{
+    
+    list-style: none;
+    margin: 15px;
+}
+header .menu a{    
+    text-decoration: none;
+    color: var(--color-text);
+    transition: color 0.2s case;
+   
+}
+header .menu a:hover{
+    color: var(--color-hover);
+}
+
+header .controllers{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    order: 1;
+}
+header .controllers ion-icon{
+    font-size: 25px;
+    cursor: pointer;
+    color: white;
+}
+header .controllers ion-icon:hover{
+    color: var(--color-hover);
+}
+header #btn-sign-up{
+    border: none;
+    cursor: pointer;
+    width: 110px;
+    height: 40px;
+    border-radius: 10px;
+    background-color: var(--main-color);
+    color: var(--color-text);
+    font-size: 15px;
+}
+header #btn-sign-up:hover{
+    background-color: var(--color-hover);
+}
+header #btn-menu{
+   display: none; 
+}
+header #home{
+    color: var(--main-color);
+}
+
+
+
+main #mapa-del-cut{
+    height: 100vh;
+    
+}
+
+.leaflet-popup-content {
+    
+    background: white;
+    padding: 16px;
+    border-radius: 8px;
+    display: flex;
+    align-items: flex-start;
+}
+
+.imgbt {
+    width: 180px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-right: 16px;
+    border: 1px solid #eee;
+}
+
+.content {
+    flex: 1;
+}
+
+.etiqueta_contenedor {
+    margin: 0 0 8px 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.coordenadas_contenedor {
+    font-size: 14px;
+    color: #666;
+    margin: 8px 0;
+    padding: 8px;
+    background: #f8f9fa;
+    border-radius: 4px;
+    border-left: 4px solid var(--main-color);
+}
+
+.btn-reportar{
+    align-self: flex-start;
+    padding: 8px 16px;
+    background-color: var(--main-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+
+@media(max-width: 865px){
+    header #btn-menu{
+        display: block;
+    }
+    header .menu{
+        height: 0;
+        overflow: hidden;
+        border-bottom: 2px solid var(--main-color);
+        transition: height 0.5s ease;
+    }
+    header .menu.active{
+        height: 280px;
+        flex-direction: column;
+        align-items: center;
+    }
+    header .menu.min{
+        height: calc(100vh - 80px);
+        overflow-y: auto;
+    }
+    header .menu ul{
+        flex-direction: column;
+        align-items: center;
+
+    }
+    header .logo span{
+        font-size: 22px;
+    }
+    
+}
+
+@media(max-width: 325px){
+    header .logo ion-icon{
+        display: none;
+    
+    }
+    header .logo span{
+        font-size: 20px;
+    }
+}
+div.leaflet-popup-content {
+    width: 380px !important;
+}
+div.leaflet-control-zoom {
+    display: block !important; 
+}

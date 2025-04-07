@@ -1,0 +1,85 @@
+<form class="cont-bg" [formGroup]="form" (ngSubmit)="submit()">
+  <h5 class="text-black mb-5">Contenedor A</h5>  
+  <input type="text" formControlName="etiquetau" value="Contenedor A"/>
+  <div class="cont-main">
+
+    <div class="cont-checkbox" *ngFor="let type of category">
+      <input
+        type="radio"
+        name="clasificacion"
+        id="myRadio-{{ type.id }}"
+        value="{{ type.name }}"
+        formControlName="clasificacion"
+      />
+      <label for="myRadio-{{ type.id }}">
+        <img [src]="type.img" />
+        <span class="cover-checkbox">
+          <svg viewBox="0 0 12 10">
+            <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+          </svg>
+        </span>
+        <div class="info">{{ type.name }}</div>
+      </label>
+    </div>
+  </div>
+  <h5 class="text-black mb-5">Estado</h5>
+  <div class="cont-main">
+    <div class="cont-checkbox">
+      <input type="radio" name="estado" id="Lleno" value="Lleno" formControlName="estado"/>
+      <label for="Lleno">
+        <img
+          src="https://png.pngtree.com/png-clipart/20220729/original/pngtree-full-garbage-bin-pollution-container-png-image_8425529.png"
+        />
+        <span class="cover-checkbox">
+          <svg viewBox="0 0 12 10">
+            <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+          </svg>
+        </span>
+        <div class="info">Lleno</div>
+      </label>
+    </div>
+
+    <div class="cont-checkbox">
+      <input
+        type="radio"
+        name="estado"
+        id="Basura mezclada"
+        value="Basura mezclada"
+        formControlName="estado"
+      />
+      <label for="Basura mezclada">
+        <img
+          src="https://i.pinimg.com/736x/c2/be/89/c2be8919dff5bf462afb1eb0d1b2f7c5.jpg"
+        />
+        <span class="cover-checkbox">
+          <svg viewBox="0 0 12 10">
+            <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+          </svg>
+        </span>
+        <div class="info">Basura mezclada</div>
+      </label>
+    </div>
+    <div class="cont-checkbox">
+      <input type="radio" name="estado" id="dañado" value="Danado" formControlName="estado"/>
+      <label for="dañado">
+        <img
+          src="https://thumbs.dreamstime.com/b/icono-de-l%C3%ADnea-paquete-da%C3%B1ado-con-caja-rota-la-eps-archivo-f%C3%A1cil-editar-276333881.jpg"
+        />
+        <span class="cover-checkbox">
+          <svg viewBox="0 0 12 10">
+            <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+          </svg>
+        </span>
+        <div class="info">Dañado</div>
+      </label>
+    </div>
+  </div>
+
+  <button    
+    
+    type="submit"
+    class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
+  >
+    Submit
+  </button>
+</form>

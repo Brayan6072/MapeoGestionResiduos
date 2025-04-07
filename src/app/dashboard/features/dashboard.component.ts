@@ -4,21 +4,20 @@ import { ReportespostService } from '../../auth/data-access/reportespost.service
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import LastWeekReportsComponent from "../../auth/ui/last-week-reports/last-week-reports.component";
+import LastMonthReportsComponent from "../../auth/ui/last-month-reports/last-month-reports.component";
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, LastWeekReportsComponent, LastMonthReportsComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
 export default class DashboardComponent implements OnInit {
   
-  private reportesService = inject(ReportesService); 
-  private ReportespostService = inject(ReportespostService);
-  private _formBuilder = inject(FormBuilder);
-  private _router = inject(Router);
+  private reportesService = inject(ReportesService);   
   
-  data: any[] = [];
+  data: any[] = [];  
   errorMessage: string | null = null;
   isLoading = true; 
 
@@ -42,6 +41,8 @@ export default class DashboardComponent implements OnInit {
         console.error('Error:', err);
       },
     });
+
+    
   }
 
   
