@@ -1,6 +1,6 @@
 import { normalize } from '@amcharts/amcharts5/.internal/core/util/Animation';
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -24,6 +24,8 @@ export interface FormReportes {
 export default class ReportesComponent {
   private _formBuilder = inject(FormBuilder);
   private _reportespostService = inject(ReportespostService);
+
+  loading = false;  
   category = [
     {
       id: '1',
@@ -64,7 +66,8 @@ export default class ReportesComponent {
   });
   
   async submit() {
-    if (this.form.valid) {      
+    if (this.form.valid) {   
+        
       const { etiquetau, clasificacion, estado } = this.form.value;
       console.log({etiquetau, clasificacion, estado});
       
@@ -73,21 +76,26 @@ export default class ReportesComponent {
         return;
       }
   
-      try {
-        // Suscríbete al observable
+      try {   
+        this.loading = true;
+       
         this._reportespostService.ReportarContenedor({ 
           etiquetau, 
           clasificacion, 
           estado 
         }).subscribe({
           next: () => {
+            this.loading = false;
             toast.success('Contenedor Reportado con exito!');
-            this.form.reset(); 
-          },
-          error: () => {
-            toast.error('Error al reportar el contenedor!');
+            
+          },error: (error) => {
+            this.loading = false;
+            toast.error('Este contenedor ya ha sido reportado!');
+            
           }
+          
         });
+        this.form.reset();
       } catch (error) {
         console.error(error);
         toast.error('Error inesperado al reportar el contenedor!');

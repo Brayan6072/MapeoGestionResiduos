@@ -96,7 +96,7 @@ export default class LastMonthReportsComponent implements OnInit{
         
         const series = chart.series.push(
           am5xy.ColumnSeries.new(this.root, {
-            name: "Reportes",
+            name: "Reportes del ultimo mes",
             xAxis: xAxis,
             yAxis: yAxis,
             valueYField: "value",

@@ -97,7 +97,7 @@ export default class LastWeekReportsComponent implements OnInit {
       
       const series = chart.series.push(
         am5xy.ColumnSeries.new(this.root, {
-          name: "Reportes",
+          name: "Reportes de la ultima semana",
           xAxis: xAxis,
           yAxis: yAxis,
           valueYField: "value",

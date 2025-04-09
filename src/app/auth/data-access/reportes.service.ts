@@ -1,18 +1,21 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
 export class ReportesService {
   private http = inject(HttpClient);  
-  private urlApi = 'http://localhost:8099/reportes/search-estatus/Verde';
-  private urlLastWeek = 'http://localhost:8099/reportes/CountLastWeek';
-  private urlUbicaciones = 'http://localhost:8099/contenedores/ubicaciones/clasificaciones';
-  private urlLastMonth = 'http://localhost:8099/reportes/CountLastMonth';
+  private host = 'http://localhost:8099';
+  private urlApi = this.host + '/reportes/search-estatus/';
+  private urlLastWeek = this.host +'/reportes/CountLastWeek';
+  private urlUbicaciones = this.host +'/contenedores/ubicaciones/clasificaciones';
+  private urlLastMonth = this.host +'/reportes/CountLastMonth';
+  private apiUrl = this.host +'/reportes';
   
-  getReportesByEstatus(): Observable<any> {
-    return this.http.get(this.urlApi).pipe(
+  
+  getReportesByEstatus(status: String): Observable<any> {
+    return this.http.get(this.urlApi + status).pipe(
       catchError((error) => {
         console.error('Error al obtener reportes:', error);
         return throwError(() => new Error('Error en la solicitud HTTP'));
@@ -46,5 +49,14 @@ export class ReportesService {
       }),
     );
   }
+    
+    UpdateStatus(id: String): Observable<any> {
+      return this.http.get<any>(`${this.apiUrl}/update/`+ id).pipe(
+        catchError((error) => {
+          console.error('Error updating status:', error);
+          return throwError(error);
+        })
+      );
+    }
 
 }

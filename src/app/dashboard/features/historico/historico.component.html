@@ -1,5 +1,3 @@
-<app-last-week-reports />
-<app-last-month-reports />
 
 <div class="mt-5 relative overflow-x-auto shadow-md sm:rounded-lg">
   <table
@@ -16,7 +14,6 @@
         <th scope="col" class="px-6 py-3">Clasificacion</th>
         <th scope="col" class="px-6 py-3">Estado</th>
         <th scope="col" class="px-6 py-3">Estatus</th>
-        <th scope="col" class="px-6 py-3">Acciones</th>
       </tr>
     </thead>
     <tbody>
@@ -34,22 +31,11 @@
         </td>
         <td class="px-6 py-4">
           <div class="flex items-center">
-            <div class="h-2.5 w-2.5 rounded-full bg-red-500 me-2"></div>
+            <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div>
             {{ item.estatus }}
           </div>
         </td>
-        <td class="px-6 py-4">
-          <button
-            (click)="updateStatus(item.id)"
-            type="button"
-            class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-          >
-          @if (isLoading) {
-            Completando...
-          }@else {Completar}
-            
-          </button>
-        </td>
+       
       </tr>
     </tbody>
   </table>

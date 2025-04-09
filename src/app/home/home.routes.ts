@@ -5,6 +5,7 @@ export default[
     
     {
         path: "index",
+        
         loadComponent: () => import("../auth/ui/mapa/mapa.component")
     },
     {

@@ -2,8 +2,7 @@ import { Routes } from '@angular/router';
 import { privateGuard, publicGuard } from './core/auth.guard';
 
 export const routes: Routes = [
-    {
-        canActivateChild: [publicGuard()],
+    {        
         path: 'mapa',
         loadComponent: () => import('./home/home.component'),
         loadChildren: () => import('./home/home.routes'),
