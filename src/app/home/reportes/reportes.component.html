@@ -1,24 +1,25 @@
 <form class="cont-bg" [formGroup]="form" (ngSubmit)="submit()">
-  <h5 class="text-black mb-5">Contenedor A</h5>  
-  <input type="text" formControlName="etiquetau" value="Contenedor A"/>
+  <h5 class="text-black mb-5">{{contenedor()}}</h5>  
+  
   <div class="cont-main">
 
-    <div class="cont-checkbox" *ngFor="let type of category">
+    <div class="cont-checkbox" *ngFor="let type of data; index as i">
+      
       <input
         type="radio"
         name="clasificacion"
-        id="myRadio-{{ type.id }}"
-        value="{{ type.name }}"
+        id="myRadio-{{ i }}"
+        value="{{ type[0] }}"
         formControlName="clasificacion"
       />
-      <label for="myRadio-{{ type.id }}">
-        <img [src]="type.img" />
+      <label for="myRadio-{{ i }}">
+        <img src="/Images/contenedores/{{type[0]}}.webp" />
         <span class="cover-checkbox">
           <svg viewBox="0 0 12 10">
             <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
           </svg>
         </span>
-        <div class="info">{{ type.name }}</div>
+        <div class="info">{{ type[0] }}</div>
       </label>
     </div>
   </div>

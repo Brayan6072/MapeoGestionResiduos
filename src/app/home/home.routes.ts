@@ -4,12 +4,12 @@ import { Routes } from "@angular/router";
 export default[
     
     {
-        path: "index",
+        path: "",
         
         loadComponent: () => import("../auth/ui/mapa/mapa.component")
     },
     {
-        path: "reportes",
+        path: "reportes/:contenedor",
         loadComponent: () => import("./reportes/reportes.component")
     }
     

@@ -1,17 +1,19 @@
 import { normalize } from '@amcharts/amcharts5/.internal/core/util/Animation';
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, effect, inject, input, signal } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
   ReactiveFormsModule,
-  Validators,
+  Validators
 } from '@angular/forms';
 import { toast } from 'ngx-sonner';
 import { ReportespostService } from '../../auth/data-access/reportespost.service';
+import { Router } from '@angular/router';
+import { ReportesService } from '../../auth/data-access/reportes.service';
+
 
 export interface FormReportes {
-  etiquetau: FormControl<string | null>;
   clasificacion: FormControl<string | null>;
   estado: FormControl<string | null>;
 }  
@@ -24,43 +26,33 @@ export interface FormReportes {
 export default class ReportesComponent {
   private _formBuilder = inject(FormBuilder);
   private _reportespostService = inject(ReportespostService);
+  private _reportesService = inject(ReportesService);
+  private _router = inject(Router);
+   data: any [] = [];
 
+  contenedor = input.required<string>();
   loading = false;  
-  category = [
-    {
-      id: '1',
-      name: 'Papel',
-      img: '/Images/contenedores/Papel.webp',
-    },
-    {
-      id: '2',
-      name: 'Vidrio',
-      img: '/Images/contenedores/Vidrio.webp',
-    },
-    {
-      id: '3',
-      name: 'Organicos',
-      img: '/Images/contenedores/Organicos.webp',
-    },
-    {
-      id: '4',
-      name: 'Dificil Reciclaje',
-      img: '/Images/contenedores/Dificil Reciclaje.webp',
-    },
-    {
-      id: '5',
-      name: 'Metal',
-      img: '/Images/contenedores/Metal.webp',
-    },
-    {
-      id: '6',
-      name: 'Plasticos',
-      img: '/Images/contenedores/Plasticos.webp',
-    },
-  ];
 
-  form = this._formBuilder.group<FormReportes>({
-    etiquetau: this._formBuilder.control('', Validators.required),
+  constructor() {
+     
+  }
+
+  ngOnInit() {
+    this._reportesService.getClasificacionesByNomnre(this.contenedor()).subscribe({
+      next: (data: any[]) => {
+        this.data = data;
+        
+        console.log(data);
+      },
+      error: (error) => {
+        console.error(error);
+      },
+    });
+  }
+  
+
+
+  form = this._formBuilder.group<FormReportes>({    
     clasificacion: this._formBuilder.control('', Validators.required),
     estado: this._formBuilder.control('', Validators.required),
   });
@@ -68,10 +60,10 @@ export default class ReportesComponent {
   async submit() {
     if (this.form.valid) {   
         
-      const { etiquetau, clasificacion, estado } = this.form.value;
-      console.log({etiquetau, clasificacion, estado});
+      const { clasificacion, estado } = this.form.value;
+      console.log({etiquetau:this.contenedor(), clasificacion, estado});
       
-      if (!etiquetau || !clasificacion || !estado) {
+      if (!clasificacion || !estado) {
         toast.error('Por favor completa todos los campos!');
         return;
       }
@@ -79,30 +71,33 @@ export default class ReportesComponent {
       try {   
         this.loading = true;
        
-        this._reportespostService.ReportarContenedor({ 
-          etiquetau, 
+         this._reportespostService.ReportarContenedor({          
+          etiquetau: this.contenedor(), 
           clasificacion, 
           estado 
         }).subscribe({
           next: () => {
             this.loading = false;
-            toast.success('Contenedor Reportado con exito!');
-            
-          },error: (error) => {
+            toast.success('Contenedor Reportado con exito!');            
+          },
+          error: (error) => {
             this.loading = false;
+            console.error(error);
             toast.error('Este contenedor ya ha sido reportado!');
             
-          }
+          },
           
         });
-        this.form.reset();
+       
+        
       } catch (error) {
-        console.error(error);
+        
         toast.error('Error inesperado al reportar el contenedor!');
       }
     } else {
       toast.error('Por favor completa todos los campos!');
     }
+    setTimeout(() => {this._router.navigateByUrl('/mapa');}, 2200);       
   }
 
 

@@ -65,11 +65,11 @@ export default class SignInComponent {
   async submitWithGoogle() {
     try {
       await this._authService.signInWithGoogle();
-      toast.success('Usuario creado con exito');
+      toast.success('Hola, nuevamente!');
       this._router.navigate(['/dashboard']);
     }
     catch (error) {
-      toast.error('error al crear usuario');
+      toast.error('Error al iniciar tu sesión');
     }
   }
 }

@@ -9,7 +9,11 @@ export default[
     {
         path: "historico",
         loadComponent: () => import("./historico/historico.component")
-    }
+    },
+    {
+        path: "ubicaciones",
+        loadComponent: () => import("./form-ubicaciones/form-ubicaciones.component")
+    },
     
     
 ] as Routes;

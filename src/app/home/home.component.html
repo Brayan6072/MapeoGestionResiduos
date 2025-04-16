@@ -1,25 +1,21 @@
-<header>
-    <div class="header-container">
+<header #header>
+    <div #headerContainer class="header-container">
         <div class="logo">
             <ion-icon name="map"></ion-icon>
             <span>Mapeo Gestion de Residuos</span>
         </div>
-        <div class="menu">
+        <div #menu class="menu">
             <ul>
-                <li><a routerLink="/mapa/index" id="home">Home</a></li>
+                <li><a routerLink="/mapa" id="home">Home</a></li>
                 <li><a href="#">Infografias</a></li>
                 <li><a href="#">About us</a></li>                    
             </ul>
         </div>
-        <div class="controllers">                
-            
+        <div #controllers class="controllers">                
             <ion-icon id="gamecontroller" name="game-controller"></ion-icon>
-            <a routerLink="/auth/sign-up"><button id="btn-sign-up">SIGN UP</button></a>
-            <ion-icon id="btn-menu" name="menu"></ion-icon>
-            
+            <a href='/dashboard'><button #btnSignUp id="btn-sign-up">SIGN UP</button></a>
+            <ion-icon id="btn-menu" name="menu" (click)="toggleMenu()"></ion-icon>
         </div>
     </div>
 </header>
 <router-outlet></router-outlet>
-
-

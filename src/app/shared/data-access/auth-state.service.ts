@@ -1,5 +1,6 @@
 import { inject, Injectable } from "@angular/core";
 import { Auth, authState, signOut, getAuth } from "@angular/fire/auth";
+import { toast } from "ngx-sonner";
 import {Observable} from "rxjs";
 
 @Injectable({
@@ -16,6 +17,7 @@ export class AuthStateService{
     }
 
     logOut(){
+        toast.success('Se ha cerrado la sesión');
         return signOut(this._auth);
     }
 }

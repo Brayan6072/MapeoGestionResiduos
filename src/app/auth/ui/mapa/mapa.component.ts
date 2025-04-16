@@ -1,26 +1,40 @@
-import { Component, OnInit, AfterViewInit, inject } from '@angular/core';
+import { Component, OnInit, AfterViewInit, inject, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import * as L from 'leaflet';
 import { ReportesService } from '../../data-access/reportes.service';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import ClasificacionesComponent from '../clasificaciones/clasificaciones.component';
+import HomeComponent from "../../../home/home.component";
+
 
 
 @Component({
   selector: 'app-mapa',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, ClasificacionesComponent],
   templateUrl: './mapa.component.html',
   styleUrl: './mapa.component.css'
 })
 export default class MapaComponent implements OnInit, AfterViewInit{
   private _reporteService = inject(ReportesService);
-  private map!: L.Map
+  @ViewChild('bottom-gallery-wrapper', { static: false }) clasificaciones_div!: ElementRef<HTMLDivElement>;
+  
+
+  private map!: L.Map 
+  
+
+  hide: boolean;
+  clasificacion: any
+  residuos: any[] = [];
+
   markers: L.Marker[] = [
     L.marker([20.566736996117946, -103.22846090067654])
   ];
 
-  constructor() { }
+  constructor() { 
+    this.hide = false;
+    
+  }
 
   ngOnInit() {
     
@@ -31,13 +45,15 @@ export default class MapaComponent implements OnInit, AfterViewInit{
     this.initMap();
     
   }
+  
   private initMap() {
     const baseMapURl = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
     this.map = L.map('mapa-del-cut');
-    L.tileLayer(baseMapURl).addTo(this.map);
+    L.tileLayer(baseMapURl,{maxZoom: 25,
+      minZoom: 17.5}).addTo(this.map);
     this.map.zoomControl.setPosition('bottomright');
 
-    // Initialize layer groups
+    
     const grupoPapel = L.layerGroup();
     const grupoMetal = L.layerGroup();
     const grupoVidrio = L.layerGroup();
@@ -45,6 +61,7 @@ export default class MapaComponent implements OnInit, AfterViewInit{
     const grupoDificilReciclaje = L.layerGroup();
     const grupoOrganicos = L.layerGroup();
 
+    this.map.zoomControl.remove();
     const customIcon = L.icon({
       iconUrl: '/Images/marker.webp',
       iconSize: [34, 34],
@@ -52,11 +69,12 @@ export default class MapaComponent implements OnInit, AfterViewInit{
       popupAnchor: [0, -32]
     });
 
-    // Get data from service and process it
+    
     this._reporteService.getUbicaciones().subscribe({
       next: (data: any[]) => {
         const punteros: L.Marker[] = [];
-        console.log(data);
+        
+
         data.forEach((marcador) => {
           
           const puntero = L.marker([marcador[1], marcador[2]], { icon: customIcon });
@@ -88,17 +106,31 @@ export default class MapaComponent implements OnInit, AfterViewInit{
           });
 
           puntero.bindPopup(
-            `<img id='imgbt' src='/Images/Botes/Contenedores.webp' onload='getimg(${JSON.stringify(residuos)})';/> 
-            <div  id='content'>
-              <h3 id='etiqueta_contenedor'>${marcador[0]}</h3>  
-              <p id='coordenadas_contenedor'>Con coordenadas: ${marcador[1]}, ${marcador[2]}</p>
-              <a href="/mapa/reportes">
-                <button id='btn-reportar'>Reportar</button>
-              </a>
+            `<div class="flex items-start bg-white p-4 rounded-lg">
+              <img 
+                class="w-[180px] h-[200px] object-cover rounded-lg mr-4 "                 
+                src="/Images/Botes/Contenedores.webp"                 
+              /> 
+              <div class="flex flex-col"> 
+                <h3 class="m-0 font-semibold text-[#2c3e50] text-xl">
+                  ${marcador[0]}
+                </h3>  
+                <p class="text-sm mt-2 p-2 bg-[#f8f9fa] rounded border-l-4 border-[#31827C] text-[#666]">
+                  Con coordenadas: ${marcador[1]}, ${marcador[2]}
+                </p>
+                <a href="/mapa/reportes/${marcador[0]}">
+                  <button                     
+                    class="mt-2 px-4 py-2 bg-[#31827C] text-white border-0 rounded text-sm cursor-pointer transition-colors duration-300 ease-in-out hover:bg-[#2a6f69]"
+                  >
+                    Reportar
+                  </button>
+                </a>
+              </div>
             </div>`
-          , {className: 'my-custom-popup'});
+          , { minWidth: 415 }).on('click', () => this.getimg(residuos));
           
         });
+        
 
         
         grupoOrganicos.addTo(this.map);
@@ -118,8 +150,8 @@ export default class MapaComponent implements OnInit, AfterViewInit{
           "Dificil Reciclaje": grupoDificilReciclaje
         };
 
-        L.control.layers(undefined, overlayMaps, { position: 'bottomleft' }).addTo(this.map);
-
+        L.control.layers(undefined, overlayMaps, { position: 'topleft' }).addTo(this.map);
+       
         
         if (punteros.length > 0) {
           const bounds = L.latLngBounds(punteros.map(marker => marker.getLatLng()));
@@ -128,7 +160,9 @@ export default class MapaComponent implements OnInit, AfterViewInit{
           
           const defaultBounds = L.latLngBounds(this.markers.map(marker => marker.getLatLng()));
           this.map.fitBounds(defaultBounds);
-        }
+        }       
+      
+
       },
       error: (err) => {
         console.error('Error:', err);
@@ -139,6 +173,18 @@ export default class MapaComponent implements OnInit, AfterViewInit{
     });
   }
 
+  getimg(residuos: any[]) {
+    this.residuos = residuos;
+    this.hide = false;
+    return residuos;
+  }
+
+  hideclass(){
+    this.hide = true;
+  }
+
   
 
 }
+
+
