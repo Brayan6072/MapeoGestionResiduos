@@ -5,6 +5,7 @@ import { FooterComponent } from "../../auth/ui/footer/footer.component";
 import { HeaderComponent } from "../../auth/ui/header/header.component";
 import { SidebarComponent } from "../../auth/ui/sidebar/sidebar.component";
 import { ReactiveFormsModule } from "@angular/forms";
+import { toast } from "ngx-sonner";
 
 @Component({
     standalone : true,
@@ -16,9 +17,11 @@ import { ReactiveFormsModule } from "@angular/forms";
 export default class LayoutComponent {
     private _authState = inject(AuthStateService)
     private _router = inject(Router)
-
+    
     async logOut() {
         await this._authState.logOut()
         this._router.navigateByUrl("/auth/sign-in")
     }
+
+    
 }

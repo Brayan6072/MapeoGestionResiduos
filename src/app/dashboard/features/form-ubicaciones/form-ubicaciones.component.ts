@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, inject, OnInit, QueryList, signal, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, Input, OnInit, QueryList, signal, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ReportesService } from '../../../auth/data-access/reportes.service';
 import MapaComponent from "../../../auth/ui/mapa/mapa.component";
@@ -42,10 +42,15 @@ export default class FormUbicacionesComponent implements OnInit{
   private _reportesPostService = inject(ReportespostService);
   private _formBuilder = inject(FormBuilder);
   private _router = inject(Router);
-
+  coords: string[] = [];
   @ViewChild('checkboxes', { static: false }) checkboxes!: QueryList<ElementRef<HTMLInputElement>>;
+  @ViewChild('latitud', { static: false }) latitudinput!: ElementRef<HTMLInputElement>;
+  @ViewChild('longitud', { static: false }) longitudinput!: ElementRef<HTMLInputElement>;
 
-  
+
+  constructor(){
+    
+  }
   selectedValues: String[]= [];
   data: any[] = [];  
   errorMessage: string | null = null;
@@ -90,7 +95,7 @@ export default class FormUbicacionesComponent implements OnInit{
       next: (data) => {
         this.data = data;
         this.loading.set(false);
-        console.log(this.data)
+        
       },
       error: (err) => {
         this.errorMessage = 'Error al cargar los datos';
@@ -135,6 +140,7 @@ export default class FormUbicacionesComponent implements OnInit{
     }
 
     async add() {
+      
       if (this.addform.invalid || this.selectedValues.length === 0) {
         toast.error('Completa todos los campos y selecciona al menos una clasificación');
         return;
@@ -143,8 +149,8 @@ export default class FormUbicacionesComponent implements OnInit{
       try {
         toast.success("load")
         this.loading.set(true);
-        const { name, latitud, longitud } = this.addform.value;
-    
+        const { name, latitud, longitud} = this.addform.value;
+        
         
         if (!name || !latitud || !longitud) {
           toast.error('Nombre, latitud y longitud son obligatorios');
@@ -190,5 +196,13 @@ export default class FormUbicacionesComponent implements OnInit{
         this.selectedValues = this.selectedValues.filter(v => v !== checkbox.value);
       }
       console.log(this.selectedValues);
+    }
+
+    getCoords(data: string[]){
+      this.coords = data;
+      this.addform.get('latitud')?.setValue(this.coords[0]);
+      this.addform.get('longitud')?.setValue(this.coords[1]);
+      
+      
     }
 }

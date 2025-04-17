@@ -9,18 +9,19 @@
 }
   
 <section>
-  <app-ubicaciones/>
+  <app-ubicaciones (coordsEvent) = "getCoords($event)"/>
 </section>
-<section class="">
+<section>
   <h4 class="font-bold">Añadir Ubicación</h4>
   <form  [formGroup]="addform" (ngSubmit)="add()">
     <div class="mb-2">
       <label class="block mb-2 mt-2 text-sm font-medium text-gray-900" for="nombre">Contenedor</label>
-      <input
+      <input        
         type="text"
         name="nombre"
         class="border border-gray-300"
         id="nombre"
+        placeholder="Ingresa un nombre"
         formControlName="name"
         
       />
@@ -32,19 +33,24 @@
         name="longitud"
         class="border border-gray-300"
         id="longitud"
-        formControlName="longitud"
-        
+        value="{{coords[1]}}"
+        formControlName="longitud" 
+        placeholder="Haz click en el mapa"
+        readonly
       />
     </div>
     <div class="mb-2">
       <label class="block mb-2 text-sm font-medium text-gray-900" for="latitud">Latitud</label>
       <input
+      
         type="text"
         name="latitud"
         class="border border-gray-300"
         id="latitud"
-        formControlName="latitud"
-        
+        formControlName="latitud"  
+        value="{{coords[0]}}"      
+        readonly
+        placeholder="Haz click en el mapa"
       />
     </div>
     <div class="mb-2">
@@ -77,7 +83,7 @@
   <h4 class="font-bold">Eliminar ubicación</h4>
   <form [formGroup]="form" (ngSubmit)="delete()">
     <div class="flex-1/2 m-2 ml-0">
-      <select class="w-full p-2 pl-1 text-[1em] border border-b-gray-500 rounded-[10px]" name="contenedor_id" formControlName="id" >
+      <select class="w-full p-2 pl-1 text-[1em] border border-b-gray-500 rounded-[10px]" name="contenedor_id" formControlName="id">
         <option
           *ngFor="let container of data ; index as i"          
           text="{{ container.nombre }}"

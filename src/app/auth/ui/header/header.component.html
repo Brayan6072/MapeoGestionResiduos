@@ -9,7 +9,7 @@
         <li
           class="flex items-center text-blue-gray-900 antialiased font-sans text-sm font-normal leading-normal cursor-pointer transition-colors duration-300 hover:text-light-blue-500"
         >
-          <a href="#">
+          <a routerLink="/dashboard">
             <p
               class="block antialiased font-sans text-sm leading-normal text-blue-900 font-normal opacity-50 transition-all hover:text-blue-500 hover:opacity-100"
             >
@@ -40,11 +40,12 @@
   </div>
   <div class="flex items-center">
     <div class="mr-auto md:mr-4 md:w-56">
-      
+      hola
     </div>
     <button
-      class="relative middle none font-sans font-medium text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none w-10 max-w-[40px] h-10 max-h-[40px] rounded-lg text-xs text-gray-500 hover:bg-blue-gray-500/10 active:bg-blue-gray-500/30 grid xl:hidden"
+      class="pointer-events-auto relative middle none font-sans font-medium text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none w-10 max-w-[40px] h-10 max-h-[40px] rounded-lg text-xs text-gray-500 hover:bg-blue-gray-500/10 active:bg-blue-gray-500/30 grid xl:hidden"
       type="button"
+      (click)="toggleSidebar()"
     >
       <span
         class="absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2"

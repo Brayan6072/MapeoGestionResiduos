@@ -2,3 +2,6 @@ label img{
     width: 25px;
     height: 25px;
 }
+aside{
+    z-index: 10000;
+}

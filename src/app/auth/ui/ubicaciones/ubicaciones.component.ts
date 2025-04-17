@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, inject, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, inject, Input, Optional, Output, ViewChild } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import L from 'leaflet';
 import { ReportesService } from '../../data-access/reportes.service';
+import { toast } from 'ngx-sonner';
 
 @Component({
   selector: 'app-ubicaciones',
@@ -11,13 +12,11 @@ import { ReportesService } from '../../data-access/reportes.service';
   styleUrl: './ubicaciones.component.css'
 })
 export default class UbicacionesComponent implements AfterViewInit{
-  private _reporteService = inject(ReportesService);  
-  @ViewChild('longitud', { static: false }) longitud!: ElementRef<HTMLInputElement>;
-  @ViewChild('latitud', { static: false }) latitud!: ElementRef<HTMLInputElement>;
+  private _reporteService = inject(ReportesService);    
 
   private map!: L.Map  
   private marker!: L.Marker;
-
+  @Output() coordsEvent = new EventEmitter<string[]>();
   clasificacion: any
   residuos: any[] = [];
 
@@ -120,11 +119,11 @@ export default class UbicacionesComponent implements AfterViewInit{
         this.marker = L.marker(e.latlng).addTo(this.map);
       }
 
-      this.marker.bindPopup(`Lat: ${lat}<br>Lng: ${lng}`).openPopup();      
-    
+      this.marker.bindPopup(`Lat: ${lat}<br>Lng: ${lng}`).openPopup(); 
       
-      this.latitud.nativeElement.textContent = lat;
-      this.longitud.nativeElement.textContent = lng;
+      this.coordsEvent.emit([lat, lng]);
+      
+      
     });
 
 

@@ -10,7 +10,7 @@ export const privateGuard = (): CanActivateFn => {
 
         return authState.authState.pipe(
             map(state => {
-                console.log(state);
+                
                 if(!state) {
                     router.navigateByUrl("/auth/sign-in");
                     return false;
