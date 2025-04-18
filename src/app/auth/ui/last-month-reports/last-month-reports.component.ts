@@ -42,7 +42,7 @@ export default class LastMonthReportsComponent implements OnInit{
         next: (data) => {
           this.dataLastMonth = data;
           this.isLoading = false;
-          console.log('Datos de la última semana:', this.dataLastMonth);
+          
           this.createChart();
         },
         error: (err) => {

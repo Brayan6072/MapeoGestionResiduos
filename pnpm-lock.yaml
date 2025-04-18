@@ -47,12 +47,18 @@ importers:
       '@types/leaflet':
         specifier: ^1.9.17
         version: 1.9.17
+      '@types/leaflet.locatecontrol':
+        specifier: ^0.82.0
+        version: 0.82.0
       ionicons:
         specifier: ^7.4.0
         version: 7.4.0
       leaflet:
         specifier: ^1.9.4
         version: 1.9.4
+      leaflet.locatecontrol:
+        specifier: ^0.84.1
+        version: 0.84.1
       ngx-sonner:
         specifier: ^3.1.0
         version: 3.1.0(@angular/common@19.2.5(@angular/core@19.2.5(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@19.2.5(rxjs@7.8.2)(zone.js@0.15.0))
@@ -2166,6 +2172,9 @@ packages:
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
 
+  '@types/leaflet.locatecontrol@0.82.0':
+    resolution: {integrity: sha512-e0pQqdxu3iPPdI1cGyOWbWMw0qZC9vvDUXC6+upsCj8GiRoKZYtRVMAMztC2TxivTFebtqelJ9ao40zBOpLsag==}
+
   '@types/leaflet@1.9.17':
     resolution: {integrity: sha512-IJ4K6t7I3Fh5qXbQ1uwL3CFVbCi6haW9+53oLWgdKlLP7EaS21byWFJxxqOx9y8I0AP0actXSJLVMbyvxhkUTA==}
 
@@ -3653,6 +3662,9 @@ packages:
 
   launch-editor@2.10.0:
     resolution: {integrity: sha512-D7dBRJo/qcGX9xlvt/6wUYzQxjh5G1RvZPgPv8vi4KRU99DVQL/oW7tnVOCCTm2HGeo3C5HvGE5Yrh6UBoZ0vA==}
+
+  leaflet.locatecontrol@0.84.1:
+    resolution: {integrity: sha512-5NGyVR/CNaugooWMnqSphuKw2CvTef8P4pA/bzeRqhZsjl3Xqh8OmA236erNE4abme33TOC8O/Wha5I05U/QJw==}
 
   leaflet@1.9.4:
     resolution: {integrity: sha512-nxS1ynzJOmOlHp+iL3FyWqK89GtNL8U8rvlMOsQdTTssxZwCXh8N2NB3GDQOL+YR3XnWyZAxwQixURb+FA74PA==}
@@ -7489,6 +7501,10 @@ snapshots:
 
   '@types/json-schema@7.0.15': {}
 
+  '@types/leaflet.locatecontrol@0.82.0':
+    dependencies:
+      '@types/leaflet': 1.9.17
+
   '@types/leaflet@1.9.17':
     dependencies:
       '@types/geojson': 7946.0.16
@@ -9150,6 +9166,8 @@ snapshots:
     dependencies:
       picocolors: 1.1.1
       shell-quote: 1.8.2
+
+  leaflet.locatecontrol@0.84.1: {}
 
   leaflet@1.9.4: {}
 

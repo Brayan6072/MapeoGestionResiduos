@@ -1,6 +1,8 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Data } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-clasificaciones',
@@ -8,10 +10,19 @@ import { CommonModule } from '@angular/common';
   templateUrl: './clasificaciones.component.html',
   styleUrl: './clasificaciones.component.css'
 })
-export default class ClasificacionesComponent {
+
+export default class ClasificacionesComponent implements AfterViewInit{
+  dataicons: any;
+
   @Input() residuos: any[] = []   
- 
+  
+  @ViewChild('dialog', { static: false }) dialog!: ElementRef<HTMLDivElement>;
+
+
   constructor(){
+    
+  }
+  ngAfterViewInit() {
     
   }
 
@@ -99,5 +110,23 @@ export default class ClasificacionesComponent {
 ];
 
 
+    ChargeIcons(clasificacion: string) {
+        const found = this.imageData.find(element => clasificacion === element.id);
+        if (found) {
+        this.dataicons = found;
+        this.openDialog();
+        }
+    }
+
+  openDialog() {
+    if (this.dialog?.nativeElement) {
+      this.dialog.nativeElement.classList.add('open');
+    }
+  }
   
+  closeDialog() {
+    if (this.dialog?.nativeElement) {
+      this.dialog.nativeElement.classList.remove('open');
+    }
+  }
 }

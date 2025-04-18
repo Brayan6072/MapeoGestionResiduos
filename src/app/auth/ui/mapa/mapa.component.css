@@ -107,3 +107,7 @@ div.leaflet-control-zoom {
   .leaflet-control-attribution.leaflet-control {
     display: none;
 }
+#locate{
+  top: 90px;
+  right: 10px;
+}

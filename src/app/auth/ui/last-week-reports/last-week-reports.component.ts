@@ -43,7 +43,7 @@ export default class LastWeekReportsComponent implements OnInit {
       next: (data) => {
         this.dataLastWeek = data;
         this.isLoading = false;
-        console.log('Datos de la última semana:', this.dataLastWeek);
+        
         this.createChart();
       },
       error: (err) => {

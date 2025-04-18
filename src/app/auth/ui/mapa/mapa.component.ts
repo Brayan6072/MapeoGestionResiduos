@@ -4,7 +4,7 @@ import { ReportesService } from '../../data-access/reportes.service';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import ClasificacionesComponent from '../clasificaciones/clasificaciones.component';
-import HomeComponent from "../../../home/home.component";
+import { toast } from 'ngx-sonner';
 
 
 
@@ -15,18 +15,19 @@ import HomeComponent from "../../../home/home.component";
   templateUrl: './mapa.component.html',
   styleUrl: './mapa.component.css'
 })
-export default class MapaComponent implements OnInit, AfterViewInit{
+export default class MapaComponent implements AfterViewInit{
   private _reporteService = inject(ReportesService);
   @ViewChild('bottom-gallery-wrapper', { static: false }) clasificaciones_div!: ElementRef<HTMLDivElement>;
   
+  hide: boolean;/*ocultar clasificaciones */
 
-  private map!: L.Map 
+  private map!: L.Map /*mapa */
+  private watchId: any; /*ubicacion */
+  private markeruser!: L.Marker;
   
-
-  hide: boolean;
-  clasificacion: any
-  residuos: any[] = [];
-
+  clasificacion: any/*almacena y comparte las clasificaciones */
+  residuos: any[] = [];/* clasificaciones consumida del api*/
+  
   markers: L.Marker[] = [
     L.marker([20.566736996117946, -103.22846090067654])
   ];
@@ -35,17 +36,54 @@ export default class MapaComponent implements OnInit, AfterViewInit{
     this.hide = false;
     
   }
-
-  ngOnInit() {
-    
-    
+  ngOnDestroy(): void {
+    if (this.watchId) {
+      navigator.geolocation.clearWatch(this.watchId);
+    }
+    if (this.map) {
+      this.map.remove();
+    }
   }
 
+  usericon = L.icon({
+    iconUrl: '/Images/icons/map.webp',
+    iconSize: [34, 34],
+    iconAnchor: [18, 34],
+    popupAnchor: [0, -32]
+  });
   ngAfterViewInit() {
     this.initMap();
     
   }
   
+  locateUser():void{
+    if(!navigator.geolocation){
+      toast.success("Tu navegador no tiene soporte para obtener tu ubicación");
+      return;
+    }
+    this.map.locate({
+      setView: true,
+      watch: true,
+      maxZoom:16,
+      enableHighAccuracy: true
+    })
+
+    this.map.on('locationfound', (e) => {
+      if (this.markeruser) {
+        this.map.removeLayer(this.markeruser);
+      }
+      
+      this.markeruser = L.marker(e.latlng, { icon: this.usericon }).addTo(this.map)
+        .bindPopup("Tu ubicación").openPopup();
+    });
+
+    this.map.on('locationerror', (e) => {
+      alert(`Location access denied. Error: ${e.message}`);
+    });
+
+    
+  }
+
   private initMap() {
     const baseMapURl = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
     this.map = L.map('mapa-del-cut');
@@ -160,8 +198,8 @@ export default class MapaComponent implements OnInit, AfterViewInit{
           
           const defaultBounds = L.latLngBounds(this.markers.map(marker => marker.getLatLng()));
           this.map.fitBounds(defaultBounds);
-        }       
-      
+        } 
+
 
       },
       error: (err) => {
@@ -173,6 +211,8 @@ export default class MapaComponent implements OnInit, AfterViewInit{
     });
   }
 
+
+
   getimg(residuos: any[]) {
     this.residuos = residuos;
     this.hide = false;
@@ -182,7 +222,8 @@ export default class MapaComponent implements OnInit, AfterViewInit{
   hideclass(){
     this.hide = true;
   }
-
+  
+  
   
 
 }

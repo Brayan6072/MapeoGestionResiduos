@@ -125,11 +125,12 @@ export default class FormUbicacionesComponent implements OnInit{
       try{
         
         const {id} = this.form.value; 
-        console.log(id);
+        
         if(!id) return;
       
         await this._reportesPostService.DeleteUbicacion(id).subscribe();
         toast.success('Ubicacion eliminada');
+        this.Refrespage();
         this.loading.set(false);
       }catch(error){
         this.loading.set(false);
@@ -147,7 +148,7 @@ export default class FormUbicacionesComponent implements OnInit{
       }
     
       try {
-        toast.success("load")
+        toast.success("Creading..")
         this.loading.set(true);
         const { name, latitud, longitud} = this.addform.value;
         
@@ -168,10 +169,11 @@ export default class FormUbicacionesComponent implements OnInit{
             clasificacion_id: this.selectedValues.map(v => Number(v)),
           },
         };
-        console.log(payload);
+        
         
         await this._reportesPostService.AddUbiacation(payload).subscribe({
           next: () => {
+            this.Refrespage();
             toast.success('Ubicación añadida correctamente');           
           },
           error: (err) => {
@@ -195,14 +197,20 @@ export default class FormUbicacionesComponent implements OnInit{
       }else {
         this.selectedValues = this.selectedValues.filter(v => v !== checkbox.value);
       }
-      console.log(this.selectedValues);
+      
     }
 
     getCoords(data: string[]){
       this.coords = data;
       this.addform.get('latitud')?.setValue(this.coords[0]);
-      this.addform.get('longitud')?.setValue(this.coords[1]);
+      this.addform.get('longitud')?.setValue(this.coords[1]);      
       
-      
+    }
+
+
+    Refrespage(){
+      this._router.navigateByUrl('/dashboard', { skipLocationChange: true }).then(() => {
+        this._router.navigate(['/dashboard']);
+      });
     }
 }

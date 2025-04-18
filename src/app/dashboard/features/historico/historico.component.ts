@@ -32,7 +32,7 @@ export default class HistoricoComponent implements OnInit {
       next: (data) => {
         this.data = data;
         this.isLoading = false;
-        console.log('Data:', data);
+        
       },
       error: (err) => {
         this.errorMessage = 'Error al cargar los datos';
