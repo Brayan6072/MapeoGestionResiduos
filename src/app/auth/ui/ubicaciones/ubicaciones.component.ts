@@ -23,6 +23,12 @@ export default class UbicacionesComponent implements AfterViewInit{
   markers: L.Marker[] = [
     L.marker([20.566736996117946, -103.22846090067654])
   ];
+  addmarker = L.icon({
+      iconUrl: '/Images/icons/map.webp',
+      iconSize: [25, 35],
+      iconAnchor: [18, 34],
+      popupAnchor: [0, -32]
+  });
 
   constructor() { 
     
@@ -116,7 +122,7 @@ export default class UbicacionesComponent implements AfterViewInit{
       if (this.marker) {
         this.marker.setLatLng(e.latlng);
       } else {
-        this.marker = L.marker(e.latlng).addTo(this.map);
+        this.marker = L.marker(e.latlng, {icon: this.addmarker}).addTo(this.map);
       }
 
       this.marker.bindPopup(`Lat: ${lat}<br>Lng: ${lng}`).openPopup(); 

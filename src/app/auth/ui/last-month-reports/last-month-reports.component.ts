@@ -102,7 +102,8 @@ export default class LastMonthReportsComponent implements OnInit{
             valueYField: "value",
             categoryXField: "category",
             tooltip: am5.Tooltip.new(this.root, {
-              labelText: "{valueY}"
+              labelText: "{categoryX} {valueY}"
+              
             })
           })
         );

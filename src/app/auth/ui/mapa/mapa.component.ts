@@ -47,7 +47,7 @@ export default class MapaComponent implements AfterViewInit{
 
   usericon = L.icon({
     iconUrl: '/Images/icons/map.webp',
-    iconSize: [34, 34],
+    iconSize: [25, 35],
     iconAnchor: [18, 34],
     popupAnchor: [0, -32]
   });
