@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, HostListener, inject, OnInit, ViewChild } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { IonIcon } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { map, gameController , menu} from 'ionicons/icons';
@@ -11,6 +11,7 @@ import { map, gameController , menu} from 'ionicons/icons';
   styleUrl: './home.component.css'
 })
 export default class HomeComponent implements AfterViewInit {
+  private _router = inject(Router)
   @ViewChild('menu', { static: false }) menu!: ElementRef<HTMLDivElement>;
   @ViewChild('btnSignUp', { static: false }) btnSignUp!: ElementRef<HTMLButtonElement>;
   @ViewChild('header', { static: false }) header!: ElementRef<HTMLElement>;
@@ -70,5 +71,7 @@ export default class HomeComponent implements AfterViewInit {
     }
   }
 
-
+  signup(){
+    this._router.navigateByUrl('/dashboard');
+  }
 }
