@@ -1,0 +1,21 @@
+<header #header>
+    <div #headerContainer class="header-container">
+        <div class="logo">
+            <ion-icon name="map"></ion-icon>
+            <span>Mapeo Gestion de Residuos</span>
+        </div>
+        <div #menu class="menu">
+            <ul>
+                <li><a routerLink="/mapa" id="home">Home</a></li>
+                <li><a href="#">Infografias</a></li>
+                <li><a href="#">About us</a></li>                    
+            </ul>
+        </div>
+        <div #controllers class="controllers">                
+            <ion-icon id="gamecontroller" name="game-controller"></ion-icon>
+            <a routerLink="/dashboard"><button #btnSignUp id="btn-sign-up" (click)="signup()">SIGN UP</button></a>
+            <ion-icon id="btn-menu" name="menu" (click)="toggleMenu()"></ion-icon>
+        </div>
+    </div>
+</header>
+<router-outlet></router-outlet>

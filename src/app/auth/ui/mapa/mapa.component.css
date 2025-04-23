@@ -1,0 +1,113 @@
+
+
+.my-custom-popup .leaflet-popup-content {
+    
+    background: white;
+    padding: 16px;
+    border-radius: 8px;
+    display: flex;
+    align-items: flex-start;
+}
+
+#imgbt {
+    width: 180px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-right: 16px;
+    border: 1px solid #eee;
+}
+#content {
+    flex: 1;
+}
+#etiqueta_contenedor {
+    margin: 0 0 8px 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+#coordenadas_contenedor {
+    font-size: 14px;
+    color: #666;
+    margin: 8px 0;
+    padding: 8px;
+    background: #f8f9fa;
+    border-radius: 4px;
+    border-left: 4px solid var(--main-color);
+}
+
+#btn-reportar{
+    align-self: flex-start;
+    padding: 8px 16px;
+    background-color: var(--main-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+div.leaflet-popup-content {
+    width: 380px !important;
+}
+div.leaflet-control-zoom {
+    display: block !important; 
+}
+
+.bottom-gallery-wrapper {
+
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    z-index: 1000;
+    bottom: 0;
+    width: 100%;
+  }
+  
+    .bottom-gallery {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 15px;
+    }
+  
+    .image-container {
+      flex-shrink: 0;
+    }
+
+    
+  .image-container img{
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  @media (max-width: 768px) {
+    .bottom-gallery {
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 400px;
+    }
+
+    .image-container img{
+      width: 75px;
+      height: 75px;
+    }
+  }
+  .leaflet-bottom.leaflet-right {
+    display: none;
+}
+  .leaflet-control-attribution.leaflet-control {
+    display: none;
+}
+#locate{
+  top: 90px;
+  right: 10px;
+}
