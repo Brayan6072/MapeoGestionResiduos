@@ -1,0 +1,55 @@
+server:
+  port: 8099
+  error:
+    whitelabel:
+      enabled: false
+    include-exception: true
+    include-message: always
+    include-stacktrace: never
+
+spring:
+  application:
+    name: mcsv-reportes
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DB_URL:jdbc:mysql://mysql-8ebd880-alumnos-859e.l.aivencloud.com:28982/notificaciones}
+    username: ${DB_USERNAME:avnadmin}
+    password: ${DB_PASSWORD:AVNS_UUkQ1zY4HTHcfHWBp94}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database: mysql
+    show-sql: true
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+
+  thymeleaf:
+    cache: false
+    enabled: true
+    servlet:
+      prefix: /templates/
+      suffix: .html
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: brayandelgadodiaz03@gmail.com
+    password: muspunqeepftmfma
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            SQL: TRACE
