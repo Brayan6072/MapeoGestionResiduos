@@ -1,0 +1,6 @@
+*.yaml
+*.yml
+src/main/java/MpReportes/mcsvreportes/Client/FirebaseConfig.java
+src/main/resources/application.yml
+*.json
+target/
