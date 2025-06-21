@@ -5,10 +5,13 @@ import {  ReactiveFormsModule} from '@angular/forms';
 import LastWeekReportsComponent from "../../auth/ui/last-week-reports/last-week-reports.component";
 import LastMonthReportsComponent from "../../auth/ui/last-month-reports/last-month-reports.component";
 import { toast } from 'ngx-sonner';
+import { NgxPaginationModule } from 'ngx-pagination';
+
+
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, LastWeekReportsComponent, LastMonthReportsComponent],
+  imports: [CommonModule, ReactiveFormsModule, LastWeekReportsComponent, LastMonthReportsComponent, NgxPaginationModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
@@ -18,10 +21,13 @@ export default class DashboardComponent implements OnInit {
 
   data: any[] = [];  
   errorMessage: string | null = null;
-  isLoading = true; 
+  isLoading = true;
+
+  p: number = 1;
+  total: number = 0;
 
   constructor(){
-    
+
   }
   ngOnInit(): void {
     this.fillData();
@@ -34,7 +40,9 @@ export default class DashboardComponent implements OnInit {
     this.reportesService.getReportesByEstatus("Rojo").subscribe({
       next: (data) => {
         this.data = data;
+        this.total = data.length;
         this.isLoading = false;
+        console.log('Datos cargados:', this.data);
         
       },
       error: (err) => {
@@ -61,6 +69,11 @@ export default class DashboardComponent implements OnInit {
       },
     });
 
+  }
+
+  pageChangeEvent(event: number){
+      this.p = event;
+      this.fillData();
   }
 
 }

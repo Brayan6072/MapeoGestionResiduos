@@ -3,9 +3,11 @@ import { Injectable, inject } from '@angular/core';
 import { options } from 'ionicons/icons';
 import { Observable, catchError, throwError } from 'rxjs';
 
-interface ReportarContenedor {  
-  etiquetau: String,
-  clasificacion: String,
+interface ReportarContenedor {
+  localizacionContenedores: {
+    id: Number
+  },
+  estatus: String,
   estado: String
 }
 
@@ -27,11 +29,11 @@ export interface UbicacionDTO{
 })
 export class ReportespostService {
   private http = inject(HttpClient);  
-  private host = 'https://mcsv-reportes-backend-latest.onrender.com'; 
-  //private host = 'http://localhost:8099'; 
+  //private host = 'https://mcsv-reportes-backend-latest.onrender.com'; 
+  private host = 'http://localhost:8099'; 
   private reportarUrl = this.host + '/reportes/reportar'; 
-  private deleteurl = this.host + '/contenedores/ubicaciones/deleteUbicacion/'
-  private addurl = this.host + '/contenedores/ubicaciones/addContenedores';
+  private deleteurl = this.host + '/ubicaciones/deleteUbicacion/'
+  private addurl = this.host + '/ubicaciones/addContenedores';
   constructor() { }
 
 
@@ -52,7 +54,7 @@ export class ReportespostService {
       })
     );
   }
-  AddUbiacation(ubicacion: UbicacionDTO): Observable<any> {
+  AddUbication(ubicacion: UbicacionDTO): Observable<any> {
     return this.http.post<any>(this.addurl, ubicacion).pipe(
       catchError((error) => {
         console.error('Error reporting container:', error);

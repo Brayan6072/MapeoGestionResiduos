@@ -2,6 +2,7 @@ package MpReportes.mcsvreportes.persistence;
 
 import MpReportes.mcsvreportes.DTO.ContenedoresDTO;
 import MpReportes.mcsvreportes.DTO.LocalizacionDTO;
+import MpReportes.mcsvreportes.Entities.Clasificaciones;
 import MpReportes.mcsvreportes.Entities.LocalizacionContenedores;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,10 +18,10 @@ import java.util.List;
 @Repository
 public interface LocalizacionContenedoresRepository extends JpaRepository<LocalizacionContenedores, Long> {
 
-    @Query(value = "SELECT clasificaciones.nombre AS clasificacion " +
-            "FROM localizacion_contenedores " +
-            "INNER JOIN clasificaciones ON localizacion_contenedores.clasificacion_id = clasificaciones.id " +
-            "INNER JOIN contenedores ON localizacion_contenedores.contenedor_id = contenedores.id " +
+    @Query(value = "SELECT clasificaciones.id AS id, clasificaciones.nombre AS clasificacion\n" +
+            "FROM localizacion_contenedores \n" +
+            "INNER JOIN clasificaciones ON localizacion_contenedores.clasificacion_id = clasificaciones.id \n" +
+            "INNER JOIN contenedores ON localizacion_contenedores.contenedor_id = contenedores.id \n" +
             "WHERE contenedores.nombre = :contenedorNombre", nativeQuery = true)
     List<Object[]> findClasificacionesByContenedorNombre(@Param("contenedorNombre") String contenedorNombre);
 
@@ -43,4 +44,15 @@ public interface LocalizacionContenedoresRepository extends JpaRepository<Locali
     @Query(value = "DELETE FROM localizacion_contenedores WHERE contenedor_id = :contenedor_id", nativeQuery = true)
     int deleteByContenedor_id(@Param("contenedor_id") int contenedor_id);
 
+    @Query(value = "SELECT id\n" +
+            "FROM localizacion_contenedores  WHERE contenedor_id = :contenedor_id AND clasificacion_id = :clasificacion_id", nativeQuery = true)
+    Long findIdLocalizacion (@Param("contenedor_id") Long contenedor_id, @Param("clasificacion_id") Long clasificacion_id);
+
+
+    @Query(value = "SELECT lc.id AS ubicacion_id, c.nombre AS clasificacion\n" +
+            "FROM localizacion_contenedores lc \n" +
+            "JOIN clasificaciones c ON lc.clasificacion_id = c.id\n" +
+            "JOIN contenedores ct ON lc.contenedor_id = ct.id\n" +
+            "WHERE ct.nombre = :contenedorName", nativeQuery = true)
+    List<Object[]> ClasificacionesByContenedor (@Param("contenedorName") String contenedorName);
 }

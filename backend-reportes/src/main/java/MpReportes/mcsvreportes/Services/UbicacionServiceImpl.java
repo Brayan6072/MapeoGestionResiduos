@@ -28,6 +28,16 @@ public class UbicacionServiceImpl implements UbicacionService{
 
 
     @Override
+    public List<Object[]> ClasificacionesByContenedor(String contenedorName) {
+        return localizacionContenedoresRepository.ClasificacionesByContenedor(contenedorName);
+    }
+
+    @Override
+    public Long findIdLocalizacion(Long contenedor_id, Long clasificacion_id) {
+        return localizacionContenedoresRepository.findIdLocalizacion(contenedor_id, clasificacion_id);
+    }
+
+    @Override
     public List<Object[]> findClasificacionesByContenedorNombre(String contenedorNombre) {
         return localizacionContenedoresRepository.findClasificacionesByContenedorNombre(contenedorNombre);
     }

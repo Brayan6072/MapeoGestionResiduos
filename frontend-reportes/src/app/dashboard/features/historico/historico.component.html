@@ -18,25 +18,27 @@
     </thead>
     <tbody>
       <tr
-        *ngFor="let item of data"
+        *ngFor="let item of data | paginate: { itemsPerPage: 15, currentPage: p, totalItems: total }"
         class="text-gray-800 bg-white dark:bg-white-800 hover:bg-white-50 dark:hover:bg-white-600"
       >
-        <td class="px-6 py-4">{{ item.id }}</td>
-        <td class="px-6 py-4">{{ item.fecha }}</td>
-        <td class="px-6 py-4">{{ item.hora }}</td>
-        <td class="px-6 py-4">{{ item.etiquetau }}</td>
-        <td class="px-6 py-4">{{ item.clasificacion }}</td>
+        <td class="px-6 py-4">{{ item[0] }}</td>
+        <td class="px-6 py-4">{{ item[1] }}</td>
+        <td class="px-6 py-4">{{ item[2] }}</td>
+        <td class="px-6 py-4">{{ item[5] }}</td>
+        <td class="px-6 py-4">{{ item[6] }}</td>
         <td class="px-6 py-4">
-          @if (item.estado == 'Danado') {Dañado} @else {{{item.estado}}}
+          @if (item[3] == 'Danado') {Dañado} @else {{{item[3]}}}
         </td>
         <td class="px-6 py-4">
           <div class="flex items-center">
             <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div>
-            {{ item.estatus }}
+            {{ item[4] }}
           </div>
         </td>
        
       </tr>
     </tbody>
   </table>
+  <pagination-controls (pageChange)="pageChangeEvent($event)"></pagination-controls>
+
 </div>

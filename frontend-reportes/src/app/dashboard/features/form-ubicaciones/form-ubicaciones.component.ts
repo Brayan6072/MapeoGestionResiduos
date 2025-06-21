@@ -148,8 +148,9 @@ export default class FormUbicacionesComponent implements OnInit{
       }
     
       try {
-        toast.success("Creading..")
+        
         this.loading.set(true);
+        toast.success("Creando..")
         const { name, latitud, longitud} = this.addform.value;
         
         
@@ -171,7 +172,7 @@ export default class FormUbicacionesComponent implements OnInit{
         };
         
         
-        await this._reportesPostService.AddUbiacation(payload).subscribe({
+        await this._reportesPostService.AddUbication(payload).subscribe({
           next: () => {
             this.Refrespage();
             toast.success('Ubicación añadida correctamente');           

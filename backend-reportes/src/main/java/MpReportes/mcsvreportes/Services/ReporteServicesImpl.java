@@ -1,9 +1,11 @@
 package MpReportes.mcsvreportes.Services;
 
-import MpReportes.mcsvreportes.Client.FirebaseUserService;
+import MpReportes.mcsvreportes.ClientApi.FirebaseUserService;
+import MpReportes.mcsvreportes.DTO.ReportesDTO;
 import MpReportes.mcsvreportes.DTO.UsernameDTO;
 import MpReportes.mcsvreportes.Entities.Reportes;
 import MpReportes.mcsvreportes.persistence.ReporteRepository;
+import com.google.firebase.database.core.Repo;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -36,30 +39,15 @@ public class ReporteServicesImpl implements ReporteService{
     public List<Reportes> BuscaReportes() {
         return reporteRepository.findAll();
     }
-
     @Override
-    public Reportes guardarReporte(Reportes reportes) {
+   public Reportes guardarReporte(Reportes reportes) {
+
+
         reportes.setHora(LocalTime.now());
         reportes.setFecha(LocalDate.now());
         reportes.setEstatus("Rojo");
 
-        List<String> destinatarios;
-        try {
-            destinatarios = firebaseUserService.getAllUserEmails();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-
-        for (String destinatario : destinatarios) {
-
-            try {
-                sendEmailWithTemplate(destinatario, reportes.getEtiquetau(), reportes.getClasificacion(), reportes.getEstado());
-            } catch (MessagingException e) {
-                e.printStackTrace(); }
-        }
-        return reporteRepository.save(reportes);
+       return reporteRepository.save(reportes);
     }
 
     private void sendEmailWithTemplate(String to, String etiquetau, String clasificacion, String estado) throws MessagingException {
@@ -79,9 +67,29 @@ public class ReporteServicesImpl implements ReporteService{
 
 
 
+    public void SendMailAllUsers(){
+        List<String> destinatarios = List.of();
+        try {
+            destinatarios = firebaseUserService.getAllUserEmails();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+
+        for (String destinatario : destinatarios) {
+
+            try {
+                sendEmailWithTemplate(destinatario, "Contenedor Prueba", "Clasificacion", "Lleno");
+            } catch (MessagingException e) {
+                e.printStackTrace(); }
+        }
+    }
+
+
 
     @Override
-    public List<Reportes> findAllReportes(String estatus) {
+    public List<Object[]> findAllReportes(String estatus) {
         return reporteRepository.findReportesByEstatus(estatus);
     }
 
@@ -101,8 +109,8 @@ public class ReporteServicesImpl implements ReporteService{
     }
 
     @Override
-    public List<Reportes> findByClasificacionAndEstadoAndEstatusAndEtiquetau(String clasificacion, String estado, String estatus, String etiquetau) {
-        return reporteRepository.findByClasificacionAndEstadoAndEstatusAndEtiquetau(clasificacion, estado, estatus, etiquetau);
+    public Boolean ExistReport(Reportes reportes) {
+        return reporteRepository.existsByEstadoAndEstatusAndLocalizacionContenedores(reportes.getEstado(), reportes.getEstatus(), reportes.getLocalizacionContenedores());
     }
 
     @Override
@@ -113,6 +121,11 @@ public class ReporteServicesImpl implements ReporteService{
     @Override
     public List<Object[]> countReportesInLastMonth() {
         return reporteRepository.countReportesInLastMonth();
+    }
+
+    @Override
+    public List<Object[]> countAllReports() {
+        return reporteRepository.countAllReports();
     }
 
 

@@ -61,25 +61,37 @@ export default class MapaComponent implements AfterViewInit{
       toast.success("Tu navegador no tiene soporte para obtener tu ubicación");
       return;
     }
-    this.map.locate({
-      setView: true,
-      watch: true,
-      maxZoom:16,
-      enableHighAccuracy: true
-    })
+    
+    if(this.watchId){
+      navigator.geolocation.clearWatch(this.watchId);
+    }
 
-    this.map.on('locationfound', (e) => {
-      if (this.markeruser) {
-        this.map.removeLayer(this.markeruser);
-      }
+    this.watchId = navigator.geolocation.watchPosition(
+    (position) => {
+      const latlng = L.latLng(position.coords.latitude, position.coords.longitude);
       
-      this.markeruser = L.marker(e.latlng, { icon: this.usericon }).addTo(this.map)
-        .bindPopup("Tu ubicación").openPopup();
-    });
-
-    this.map.on('locationerror', (e) => {
-      alert(`Location access denied. Error: ${e.message}`);
-    });
+      if (!this.markeruser) {
+        
+        this.markeruser = L.marker(latlng, { icon: this.usericon })
+          .addTo(this.map)
+          .bindPopup("Tu ubicación")
+          .openPopup();
+        
+        this.map.setView(latlng, this.map.getZoom());
+      } else {
+        this.markeruser.setLatLng(latlng);
+        this.map.setView(latlng);
+      }
+    },
+    (error) => {
+      toast.error(`Error al obtener ubicación: ${error.message}`);
+    },
+    {
+      enableHighAccuracy: true,
+      maximumAge: 10000,
+      timeout: 5000
+    }
+  );
 
     
   }

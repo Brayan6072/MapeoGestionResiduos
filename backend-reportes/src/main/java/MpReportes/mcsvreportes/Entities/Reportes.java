@@ -33,13 +33,11 @@ public class Reportes {
     private String estado;
 
     @Column(name = "estatus")
-    private String estatus = "Rojo";
+    private String estatus;
 
-    @Column(name = "etiquetau")
-    private String etiquetau;
-
-    @Column(name = "clasificacion")
-    private String clasificacion;
+    @ManyToOne
+    @JoinColumn(name = "localizacion_contenedores_id", nullable = false)
+    private LocalizacionContenedores localizacionContenedores;
 
 
     public Long getId() {
@@ -82,19 +80,11 @@ public class Reportes {
         this.estatus = estatus;
     }
 
-    public String getEtiquetau() {
-        return etiquetau;
+    public LocalizacionContenedores getLocalizacionContenedores() {
+        return localizacionContenedores;
     }
 
-    public void setEtiquetau(String etiquetau) {
-        this.etiquetau = etiquetau;
-    }
-
-    public String getClasificacion() {
-        return clasificacion;
-    }
-
-    public void setClasificacion(String clasificacion) {
-        this.clasificacion = clasificacion;
+    public void setLocalizacionContenedores(LocalizacionContenedores localizacionContenedores) {
+        this.localizacionContenedores = localizacionContenedores;
     }
 }

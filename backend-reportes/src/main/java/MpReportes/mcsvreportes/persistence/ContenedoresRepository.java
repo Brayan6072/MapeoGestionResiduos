@@ -18,4 +18,23 @@ public interface ContenedoresRepository extends JpaRepository<Contenedores, Long
     @Query(value = "DELETE FROM contenedores WHERE id = :id", nativeQuery = true)
     int deleteById(@Param("id") int id);
 
+    @Query(value = "SELECT \n" +
+            "    c.nombre AS nombre_contenedor,    \n" +
+            "    cl.nombre AS nombre_clasificacion,\n" +
+            "    COUNT(r.id) AS cont_reportes\n" +
+            "FROM \n" +
+            "    contenedores c\n" +
+            "JOIN \n" +
+            "    localizacion_contenedores lc ON c.id = lc.contenedor_id\n" +
+            "JOIN \n" +
+            "    clasificaciones cl ON lc.clasificacion_id = cl.id\n" +
+            "LEFT JOIN \n" +
+            "    reportes r ON lc.id = r.localizacion_contenedores_id\n" +
+            "    AND r.fecha >= CURDATE() - INTERVAL 2 MONTH \n" +
+            "WHERE c.nombre = :ContainerName\n" +
+            "GROUP BY \n" +
+            "    c.id, c.nombre, cl.id, cl.nombre\n" +
+            "ORDER BY \n" +
+            "    c.id, cl.id;", nativeQuery = true)
+    List<Object[]> CountReportsByContainer (@Param("ContainerName") String ContainerName);
 }

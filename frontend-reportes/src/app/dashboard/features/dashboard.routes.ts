@@ -14,6 +14,10 @@ export default[
         path: "ubicaciones",
         loadComponent: () => import("./form-ubicaciones/form-ubicaciones.component")
     },
+    {
+        path: "estadisticas",
+        loadComponent: () => import("../../auth/ui/charts/topcontainer/topcontainer.component")
+    }
     
     
 ] as Routes;

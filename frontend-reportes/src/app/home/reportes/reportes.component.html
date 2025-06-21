@@ -7,19 +7,19 @@
       
       <input
         type="radio"
-        name="clasificacion"
+        name="localizacionContenedores"
         id="myRadio-{{ i }}"
         value="{{ type[0] }}"
-        formControlName="clasificacion"
+        formControlName="localizacionContenedores"
       />
       <label for="myRadio-{{ i }}">
-        <img src="/Images/contenedores/{{type[0]}}.webp" />
+        <img src="/Images/contenedores/{{type[1]}}.webp" />
         <span class="cover-checkbox">
           <svg viewBox="0 0 12 10">
             <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
           </svg>
         </span>
-        <div class="info">{{ type[0] }}</div>
+        <div class="info">{{ type[1] }}</div>
       </label>
     </div>
   </div>
@@ -50,6 +50,7 @@
       />
       <label for="Basura mezclada">
         <img
+          class="object-cover"
           src="https://i.pinimg.com/736x/c2/be/89/c2be8919dff5bf462afb1eb0d1b2f7c5.jpg"
         />
         <span class="cover-checkbox">
@@ -64,7 +65,7 @@
       <input type="radio" name="estado" id="dañado" value="Danado" formControlName="estado"/>
       <label for="dañado">
         <img
-          src="https://thumbs.dreamstime.com/b/icono-de-l%C3%ADnea-paquete-da%C3%B1ado-con-caja-rota-la-eps-archivo-f%C3%A1cil-editar-276333881.jpg"
+          src="Images/icons/break.webp"
         />
         <span class="cover-checkbox">
           <svg viewBox="0 0 12 10">

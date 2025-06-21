@@ -34,6 +34,11 @@ public class Contenedores {
     @Column(name = "latitud")
     private String latitud;
 
+
+    @Lob
+    @Column(name = "img", columnDefinition = "LONGBLOB")
+    private byte[] img;
+
     public Long getId() {
         return id;
     }
@@ -64,5 +69,13 @@ public class Contenedores {
 
     public void setLatitud(String latitud) {
         this.latitud = latitud;
+    }
+
+    public byte[] getImg() {
+        return img;
+    }
+
+    public void setImg(byte[] img) {
+        this.img = img;
     }
 }

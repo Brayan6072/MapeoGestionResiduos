@@ -4,16 +4,19 @@ import MpReportes.mcsvreportes.DTO.*;
 import MpReportes.mcsvreportes.Entities.*;
 import MpReportes.mcsvreportes.Services.*;
 import org.apache.http.protocol.HTTP;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
 @CrossOrigin(value = "*")
-@RequestMapping("/contenedores/ubicaciones")
+@RequestMapping("/ubicaciones")
 public class UbicacionesController {
 
     private final UbicacionServiceImpl ubicacionService;
@@ -24,6 +27,15 @@ public class UbicacionesController {
         this.contenedorService = contenedorService;
 
     }
+    /*Recupera el id de una ubicacion, para saber a que contenedor de ubicacion se esta referenciando*/
+    @GetMapping("/getIdLocalizacion")
+    public ResponseEntity<?> getIdLocalizacion(@RequestParam("contenedor_id") Long contenedor_id, @RequestParam("clasificacion_id") Long clasificacion_id){
+        return ResponseEntity.ok(ubicacionService.findIdLocalizacion(contenedor_id, clasificacion_id));
+    }
+    /* Ejemplo de url con request Param
+    /getIdLocalizacion?contenedor_id=1&clasificacion_id=2
+    */
+
     /*Busca todos los contenedores con todas sus clasificaciones*/
     @GetMapping("/clasificaciones")
     public ResponseEntity<?> getContenedoresConClasificaciones(){
@@ -47,11 +59,11 @@ public class UbicacionesController {
         return ResponseEntity.ok(ubicacionService.addLocation(localizacionDTO));
     }
     @PostMapping("/addContenedores")
-    public ResponseEntity<?> agregarLocalizacion(@RequestBody UbicacionDTO ubicacionDTO){
+    public ResponseEntity<?> agregarLocalizacion(@RequestPart UbicacionDTO ubicacionDTO, @RequestPart MultipartFile imgFile) throws IOException {
         Long id = contenedorService.findIdByNombre(ubicacionDTO.getContenedores().getNombre());
 
         if(id == null){
-            contenedorService.createContainer(ubicacionDTO.getContenedores());
+            contenedorService.createContainer(ubicacionDTO.getContenedores(), imgFile);
             id = contenedorService.findIdByNombre(ubicacionDTO.getContenedores().getNombre());
             ubicacionDTO.getLocalizacionDTO().setContenedor_id(id);
             ubicacionService.addLocation(ubicacionDTO.getLocalizacionDTO());
@@ -82,12 +94,12 @@ public class UbicacionesController {
     public ResponseEntity<?> delete(@PathVariable int contenedor_id){
         ubicacionService.deleteByContenedor_id(contenedor_id);
         return ResponseEntity.ok(contenedorService.deleteById(contenedor_id));
-        /*
-        {
-            "id": 10
-        }
-        */
 
+
+    }
+    @GetMapping("/UbicacionContenedor/{contenedorName}")
+    public ResponseEntity<?> ClasificacionesByContenedor(@PathVariable("contenedorName") String contenedorName){
+        return ResponseEntity.ok(ubicacionService.ClasificacionesByContenedor(contenedorName));
     }
 
 

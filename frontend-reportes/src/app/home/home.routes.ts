@@ -11,7 +11,15 @@ export default[
     {
         path: "reportes/:contenedor",
         loadComponent: () => import("./reportes/reportes.component")
+    },
+    {
+        path: "infografias",
+        loadComponent: () => import("./infografias/infografias.component")
+    },
+    {
+        path: "about-us",
+        loadComponent: () => import("./aboutus/aboutus.component")
     }
-    
-    
+
+
 ] as Routes;

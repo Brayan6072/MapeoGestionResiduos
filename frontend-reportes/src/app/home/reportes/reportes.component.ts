@@ -2,6 +2,7 @@ import { normalize } from '@amcharts/amcharts5/.internal/core/util/Animation';
 import { CommonModule } from '@angular/common';
 import { Component, effect, inject, input, signal } from '@angular/core';
 import {
+  Form,
   FormBuilder,
   FormControl,
   ReactiveFormsModule,
@@ -14,7 +15,9 @@ import { ReportesService } from '../../auth/data-access/reportes.service';
 
 
 export interface FormReportes {
-  clasificacion: FormControl<string | null>;
+  localizacionContenedores: {
+    id: FormControl<string | null>;
+  },
   estado: FormControl<string | null>;
 }  
 @Component({
@@ -38,11 +41,11 @@ export default class ReportesComponent {
   }
 
   ngOnInit() {
-    this._reportesService.getClasificacionesByNomnre(this.contenedor()).subscribe({
+    this._reportesService.getUbicacionContenedor(this.contenedor()).subscribe({
       next: (data: any[]) => {
         this.data = data;
+        console.log(this.data);
         
-        console.log(data);
       },
       error: (error) => {
         console.error(error);
@@ -53,43 +56,46 @@ export default class ReportesComponent {
 
 
   form = this._formBuilder.group<FormReportes>({    
-    clasificacion: this._formBuilder.control('', Validators.required),
+    localizacionContenedores: {
+      id: this._formBuilder.control('', Validators.required),
+    },
     estado: this._formBuilder.control('', Validators.required),
   });
   
   async submit() {
     if (this.form.valid) {   
         
-      const { clasificacion, estado } = this.form.value;
-      console.log({etiquetau:this.contenedor(), clasificacion, estado});
-      
-      if (!clasificacion || !estado) {
+      const { localizacionContenedores, estado } = this.form.value;
+            
+      if (!localizacionContenedores || !estado) {
         toast.error('Por favor completa todos los campos!');
         return;
       }
-  
-      try {   
+
+      console.log(localizacionContenedores.id);
+      try {
         this.loading = true;
-       
-         this._reportespostService.ReportarContenedor({          
-          etiquetau: this.contenedor(), 
-          clasificacion, 
-          estado 
+         this._reportespostService.ReportarContenedor({
+           estatus: 'Rojo',
+           localizacionContenedores: {
+            id: Number(localizacionContenedores)
+           },
+           estado
         }).subscribe({
           next: () => {
             this.loading = false;
-            toast.success('Contenedor Reportado con exito!');            
+            toast.success('Contenedor Reportado con exito!');                     
           },
           error: (error) => {
             this.loading = false;
-            console.error(error);
+            console.error(error);            
             toast.error('Este contenedor ya ha sido reportado!');
             
           },
           
         });
-       
-        
+       this._router.navigateByUrl('/mapa');
+
       } catch (error) {
         
         toast.error('Error inesperado al reportar el contenedor!');
@@ -97,7 +103,7 @@ export default class ReportesComponent {
     } else {
       toast.error('Por favor completa todos los campos!');
     }
-    setTimeout(() => {this._router.navigateByUrl('/mapa');}, 2200);       
+        
   }
 
 

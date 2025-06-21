@@ -6,7 +6,9 @@ import MpReportes.mcsvreportes.persistence.ContenedoresRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -16,7 +18,8 @@ public class ContenedorServiceImpl implements ContenedorService{
     private ContenedoresRepository contenedoresRepository;
 
     @Override
-    public Contenedores createContainer(Contenedores contenedores) {
+    public Contenedores createContainer(Contenedores contenedores, MultipartFile imgFile) throws IOException {
+        contenedores.setImg(imgFile.getBytes());
         return contenedoresRepository.save(contenedores);
     }
 
@@ -34,6 +37,11 @@ public class ContenedorServiceImpl implements ContenedorService{
     @Override
     public List<Contenedores> findContenedores() {
         return contenedoresRepository.findAll();
+    }
+
+    @Override
+    public List<Object[]> CountReportsByContainer(String ContainerName) {
+        return contenedoresRepository.CountReportsByContainer(ContainerName);
     }
 
 

@@ -6,7 +6,7 @@ class="bg-gradient-to-br from-gray-800 to-gray-900 fixed inset-0 z-50 my-4 ml-4 
 
 >
   <div class="relative border-b border-white/20">
-    <a class="flex items-center gap-4 py-6 px-8" routerLink="/dashboard">
+    <a class="flex items-center gap-4 py-6 px-8" [routerLink]="['/dashboard']">
       <h6
         class="block antialiased tracking-normal font-sans text-base font-semibold leading-relaxed text-white"
       >
@@ -42,7 +42,7 @@ class="bg-gradient-to-br from-gray-800 to-gray-900 fixed inset-0 z-50 my-4 ml-4 
   <div class="m-4">
     <ul class="mb-4 flex flex-col gap-1">
       <li>
-        <a aria-current="page" class="active">
+        <a aria-current="page" class="active" [routerLink]="['/dashboard']">
           <button
             class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg bg-gradient-to-tr from-blue-600 to-blue-400 text-white shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/40 active:opacity-[0.85] w-full flex items-center gap-4 px-4 capitalize"
             type="button"
@@ -119,6 +119,33 @@ class="bg-gradient-to-br from-gray-800 to-gray-900 fixed inset-0 z-50 my-4 ml-4 
               class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize"
             >
               Ubicaciones
+            </p>
+          </button>
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="['/dashboard/estadisticas']">
+          <button
+            class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 capitalize"
+            type="button"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              aria-hidden="true"
+              class="w-5 h-5 text-inherit"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M1.5 5.625c0-1.036.84-1.875 1.875-1.875h17.25c1.035 0 1.875.84 1.875 1.875v12.75c0 1.035-.84 1.875-1.875 1.875H3.375A1.875 1.875 0 011.5 18.375V5.625zM21 9.375A.375.375 0 0020.625 9h-7.5a.375.375 0 00-.375.375v1.5c0 .207.168.375.375.375h7.5a.375.375 0 00.375-.375v-1.5zm0 3.75a.375.375 0 00-.375-.375h-7.5a.375.375 0 00-.375.375v1.5c0 .207.168.375.375.375h7.5a.375.375 0 00.375-.375v-1.5zm0 3.75a.375.375 0 00-.375-.375h-7.5a.375.375 0 00-.375.375v1.5c0 .207.168.375.375.375h7.5a.375.375 0 00.375-.375v-1.5zM10.875 18.75a.375.375 0 00.375-.375v-1.5a.375.375 0 00-.375-.375h-7.5a.375.375 0 00-.375.375v1.5c0 .207.168.375.375.375h7.5zM3.375 15h7.5a.375.375 0 00.375-.375v-1.5a.375.375 0 00-.375-.375h-7.5a.375.375 0 00-.375.375v1.5c0 .207.168.375.375.375zm0-3.75h7.5a.375.375 0 00.375-.375v-1.5A.375.375 0 0010.875 9h-7.5A.375.375 0 003 9.375v1.5c0 .207.168.375.375.375z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+            <p
+              class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize"
+            >
+              Estadisticas
             </p>
           </button>
         </a>

@@ -18,4 +18,5 @@ public class ContenedoresDTO {
     private String clasificacion;
 
 
+
 }
