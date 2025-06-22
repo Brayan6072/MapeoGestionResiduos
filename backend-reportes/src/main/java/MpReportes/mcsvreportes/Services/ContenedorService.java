@@ -15,4 +15,5 @@ public interface ContenedorService {
     int deleteById(int id);
     List<Contenedores> findContenedores();
     List<Object[]> CountReportsByContainer(String ContainerName);
+    boolean existsByNombre (String contenedorName);
 }

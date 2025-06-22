@@ -37,4 +37,6 @@ public interface ContenedoresRepository extends JpaRepository<Contenedores, Long
             "ORDER BY \n" +
             "    c.id, cl.id;", nativeQuery = true)
     List<Object[]> CountReportsByContainer (@Param("ContainerName") String ContainerName);
+
+    boolean existsByNombre(String contenedorName);
 }

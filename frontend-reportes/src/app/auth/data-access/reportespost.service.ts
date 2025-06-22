@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { options } from 'ionicons/icons';
 import { Observable, catchError, throwError } from 'rxjs';
+import { FileHandle } from '../../dashboard/features/form-ubicaciones/form-ubicaciones.component';
 
 interface ReportarContenedor {
   localizacionContenedores: {
@@ -54,14 +55,26 @@ export class ReportespostService {
       })
     );
   }
-  AddUbication(ubicacion: UbicacionDTO): Observable<any> {
-    return this.http.post<any>(this.addurl, ubicacion).pipe(
-      catchError((error) => {
-        console.error('Error reporting container:', error);
-        return throwError(error);
-      })
-    );
+  AddUbication(ubicacion: UbicacionDTO, fileHandle: FileHandle): Observable<any> {
+  
+  const formData = new FormData();  
+  
+  const ubicacionBlob = new Blob([JSON.stringify(ubicacion)], {
+    type: 'application/json'
+  });
+  formData.append('ubicacionDTO', ubicacionBlob);  
+  
+  if (fileHandle?.file) {
+    formData.append('imgFile', fileHandle.file, fileHandle.file.name);
   }
+
+  return this.http.post<any>(this.addurl, formData).pipe(
+    catchError((error) => {
+      console.error('Error reporting container:', error);
+      return throwError(() => new Error(error.message || 'Server error'));
+    })
+  );
+}
 
   
 }

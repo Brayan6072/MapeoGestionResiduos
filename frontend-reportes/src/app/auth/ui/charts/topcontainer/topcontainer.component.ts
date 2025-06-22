@@ -26,6 +26,7 @@ export default class TopcontainerComponent implements OnInit {
   errorMessage: string | null = null;
   loading = signal<boolean>(false);
   private root!: am5.Root;
+
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object, 
     private zone: NgZone
@@ -54,8 +55,7 @@ export default class TopcontainerComponent implements OnInit {
     await this._reportesService.findContainers().subscribe({
       next: (data) => {
         this.data = data;
-        this.loading.set(false);
-        
+        this.loading.set(false);        
       },
       error: (err) => {
         this.errorMessage = 'Error al cargar los datos';
@@ -73,7 +73,7 @@ export default class TopcontainerComponent implements OnInit {
       next: (countdata) => {
         this.countdata = countdata;
         this.loading.set(false);
-        this.createChart();
+        
         console.log('Count data:', this.countdata);
       },
       error: (err) => {
@@ -89,14 +89,16 @@ export default class TopcontainerComponent implements OnInit {
     if (this.form.valid) {  
       
       const {contenedorName} = this.form.value;
-      console.log('Selected container:', contenedorName);
+      
       if(!contenedorName) return;
       
       this.CountReportsByContainer(contenedorName);
+      
     } 
   }
 
-    private createChart(): void {
+    createChart(): void {
+      this.ShowChart();
       this.browserOnly(() => {
         
         if (this.root) {
@@ -113,7 +115,7 @@ export default class TopcontainerComponent implements OnInit {
             layout: this.root.verticalLayout
           })
         );
-  
+        
         
         const chartData = this.countdata.map(item => ({
           category: item[1],  

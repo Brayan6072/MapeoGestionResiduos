@@ -5,6 +5,7 @@ import MpReportes.mcsvreportes.Entities.*;
 import MpReportes.mcsvreportes.Services.*;
 import org.apache.http.protocol.HTTP;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -59,18 +60,28 @@ public class UbicacionesController {
         return ResponseEntity.ok(ubicacionService.addLocation(localizacionDTO));
     }
     @PostMapping("/addContenedores")
-    public ResponseEntity<?> agregarLocalizacion(@RequestPart UbicacionDTO ubicacionDTO, @RequestPart MultipartFile imgFile) throws IOException {
-        Long id = contenedorService.findIdByNombre(ubicacionDTO.getContenedores().getNombre());
+    public ResponseEntity<?> agregarLocalizacion(
+            @RequestPart("ubicacionDTO") UbicacionDTO ubicacionDTO,
+            @RequestPart("imgFile") MultipartFile imgFile) throws IOException {
 
-        if(id == null){
-            contenedorService.createContainer(ubicacionDTO.getContenedores(), imgFile);
-            id = contenedorService.findIdByNombre(ubicacionDTO.getContenedores().getNombre());
-            ubicacionDTO.getLocalizacionDTO().setContenedor_id(id);
-            ubicacionService.addLocation(ubicacionDTO.getLocalizacionDTO());
-            return ResponseEntity.ok().body(ubicacionDTO.getContenedores());
-        }else{
-            return ResponseEntity.ok().body("Error al agregar la ubicacion");
+        // Check if container already exists
+        if (contenedorService.existsByNombre(ubicacionDTO.getContenedores().getNombre())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("Ya existe una ubicación con ese nombre");
         }
+
+        // Transactional operation
+        try {
+            Contenedores contenedor = contenedorService.createContainer(ubicacionDTO.getContenedores(), imgFile);
+            ubicacionDTO.getLocalizacionDTO().setContenedor_id(contenedor.getId());
+            ubicacionService.addLocation(ubicacionDTO.getLocalizacionDTO());
+
+            return ResponseEntity.ok().body(contenedor);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError()
+                    .body("Error al procesar la solicitud");
+        }
+    }
         /*angular/postman
 
         {
@@ -87,7 +98,7 @@ public class UbicacionesController {
             }
         }
         */
-    }
+
 
     /*angular*/
     @DeleteMapping("/deleteUbicacion/{contenedor_id}")

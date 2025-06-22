@@ -17,4 +17,6 @@ public interface UbicacionService {
     LocalizacionContenedores createLocalizacion(LocalizacionContenedores localizacionContenedores);
     List<LocalizacionContenedores> addLocation(LocalizacionDTO localizacionDTO);
     int deleteByContenedor_id(int contenedor_id);
+
+
 }

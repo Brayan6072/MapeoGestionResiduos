@@ -44,5 +44,10 @@ public class ContenedorServiceImpl implements ContenedorService{
         return contenedoresRepository.CountReportsByContainer(ContainerName);
     }
 
+    @Override
+    public boolean existsByNombre(String contenedorName) {
+        return contenedoresRepository.existsByNombre(contenedorName);
+    }
+
 
 }

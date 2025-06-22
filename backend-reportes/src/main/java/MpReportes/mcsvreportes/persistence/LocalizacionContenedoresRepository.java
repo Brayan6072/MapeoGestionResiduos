@@ -55,4 +55,6 @@ public interface LocalizacionContenedoresRepository extends JpaRepository<Locali
             "JOIN contenedores ct ON lc.contenedor_id = ct.id\n" +
             "WHERE ct.nombre = :contenedorName", nativeQuery = true)
     List<Object[]> ClasificacionesByContenedor (@Param("contenedorName") String contenedorName);
+
+
 }
