@@ -39,4 +39,7 @@ public interface ContenedoresRepository extends JpaRepository<Contenedores, Long
     List<Object[]> CountReportsByContainer (@Param("ContainerName") String ContainerName);
 
     boolean existsByNombre(String contenedorName);
+
+    @Query(value = "SELECT * FROM contenedores WHERE id = :id AND is_available = :is_available", nativeQuery = true)
+    Contenedores getContainerById(@Param("id") Long id, @Param("is_available") String is_available);
 }

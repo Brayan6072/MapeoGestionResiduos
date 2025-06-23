@@ -34,10 +34,12 @@ public class Contenedores {
     @Column(name = "latitud")
     private String latitud;
 
-
     @Lob
     @Column(name = "img", columnDefinition = "LONGBLOB")
     private byte[] img;
+
+    @Column(name = "is_available")
+    private String is_available;
 
     public Long getId() {
         return id;
@@ -78,4 +80,14 @@ public class Contenedores {
     public void setImg(byte[] img) {
         this.img = img;
     }
+
+    public String getIs_available() {
+        return is_available;
+    }
+
+    public void setIs_available(String is_available) {
+        this.is_available = is_available;
+    }
+
+
 }

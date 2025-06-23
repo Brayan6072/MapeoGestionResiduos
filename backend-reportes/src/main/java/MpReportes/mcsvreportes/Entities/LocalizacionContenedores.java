@@ -30,6 +30,9 @@ public class LocalizacionContenedores {
         return clasificaciones;
     }
 
+    @Column(name = "isAvailable")
+    private String isAvailable = "Activo";
+
     public void setClasificaciones(Clasificaciones clasificaciones) {
         this.clasificaciones = clasificaciones;
     }
@@ -48,5 +51,13 @@ public class LocalizacionContenedores {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getIsAvailable() {
+        return isAvailable;
+    }
+
+    public void setIsAvailable(String isAvailable) {
+        this.isAvailable = isAvailable;
     }
 }

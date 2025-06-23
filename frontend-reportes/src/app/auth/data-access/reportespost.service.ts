@@ -15,7 +15,8 @@ interface ReportarContenedor {
 export interface Contenedores{
   nombre: String,
   longitud: String,
-  latitud: String
+  latitud: String,
+  is_available?: String
 }
 export interface LocalizacionDTO{  
   clasificacion_id: number[],

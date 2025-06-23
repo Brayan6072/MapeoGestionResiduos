@@ -64,13 +64,11 @@ public class UbicacionesController {
             @RequestPart("ubicacionDTO") UbicacionDTO ubicacionDTO,
             @RequestPart("imgFile") MultipartFile imgFile) throws IOException {
 
-        // Check if container already exists
         if (contenedorService.existsByNombre(ubicacionDTO.getContenedores().getNombre())) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
                     .body("Ya existe una ubicación con ese nombre");
         }
 
-        // Transactional operation
         try {
             Contenedores contenedor = contenedorService.createContainer(ubicacionDTO.getContenedores(), imgFile);
             ubicacionDTO.getLocalizacionDTO().setContenedor_id(contenedor.getId());

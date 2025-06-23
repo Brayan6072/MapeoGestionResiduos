@@ -16,7 +16,7 @@ export class ReportesService {
   private urlfindcontainers = this.host + '/contenedores/findContainers';  
   private urlgetIdLocalizacion = this.host + '/ubicaciones/UbicacionContenedor';
   private urlCountByContenedor = this.host + '/contenedores/CountReportsByContainer';
-
+  private urlgetContainerById = this.host + '/contenedores/getContainerById';
 
   
   getReportesByEstatus(status: String): Observable<any> {
@@ -94,6 +94,15 @@ export class ReportesService {
       return this.http.get<any>(`${this.urlCountByContenedor}/` + contenedorName).pipe(
         catchError((error) => {
           console.error('Error al obtener el conteo de reportes por contenedor:', error);
+          return throwError(() => new Error('Error en la solicitud HTTP'));
+        }),
+      );
+    }
+
+    getContainerById(id: String): Observable<any> {
+      return this.http.get<any>(this.urlgetContainerById+ "/" + id).pipe(
+        catchError((error) => {
+          console.error('Error al obtener el contenedor por ID:', error);
           return throwError(() => new Error('Error en la solicitud HTTP'));
         }),
       );

@@ -1,5 +1,6 @@
 package MpReportes.mcsvreportes.Controllers;
 
+import MpReportes.mcsvreportes.DTO.UbicacionDTO;
 import MpReportes.mcsvreportes.Entities.Contenedores;
 import MpReportes.mcsvreportes.Services.ContenedorService;
 import MpReportes.mcsvreportes.Services.ContenedorServiceImpl;
@@ -46,8 +47,19 @@ public class ContenedorController {
     }
 
     @GetMapping("/CountReportsByContainer/{ContainerName}")
-    public  ResponseEntity<?> CountReportsByContainer(@PathVariable String ContainerName){
+    public ResponseEntity<?> CountReportsByContainer(@PathVariable String ContainerName){
         return ResponseEntity.ok(contenedorService.CountReportsByContainer(ContainerName));
     }
 
+    @GetMapping("/getContainerById/{id}")
+    public ResponseEntity<?> getContainerById(@PathVariable Long id){
+        String is_available = "Activo";
+        return ResponseEntity.ok(contenedorService.getContainerById(id, is_available));
+    }
+
+    @PutMapping("/UpdateContainer/{id}/{is_available}")
+    public  ResponseEntity<?> UpdateContainer(@PathVariable Long id, @PathVariable String is_available,@RequestPart("contenedores") Contenedores contenedores,
+                                              @RequestPart("imgFile") MultipartFile imgFile) throws IOException{
+        return ResponseEntity.ok(contenedorService.updateContainer(id, is_available,contenedores, imgFile));
+    }
 }
