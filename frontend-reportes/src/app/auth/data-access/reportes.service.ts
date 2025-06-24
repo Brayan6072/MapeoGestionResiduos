@@ -65,7 +65,7 @@ export class ReportesService {
     }
 
     getClasificacionesByNombre(contenedor: String): Observable<any> {
-      return this.http.get<any>(`${this.host}/contenedores/ubicaciones/clasificaciones/`+contenedor).pipe(
+      return this.http.get<any>(`${this.host}/ubicaciones/clasificaciones/`+contenedor).pipe(
         catchError((error) => {
           console.error('Error al obtener reportes:', error);
           return throwError(() => new Error('Error en la solicitud HTTP'));

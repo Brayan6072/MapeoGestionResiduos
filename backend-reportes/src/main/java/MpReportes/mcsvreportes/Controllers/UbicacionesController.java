@@ -111,6 +111,10 @@ public class UbicacionesController {
         return ResponseEntity.ok(ubicacionService.ClasificacionesByContenedor(contenedorName));
     }
 
-
+    @PutMapping("/UpdateClasificaciones")
+    public ResponseEntity<?> UpdateClasificaciones(@RequestBody LocalizacionDTO localizacionDTO){
+        ubicacionService.UpdateClasificaciones(localizacionDTO);
+        return ResponseEntity.ok().body("Clasificaciones actualizadas");
+    }
 
 }

@@ -43,7 +43,7 @@ public class ContenedorController {
     /*Obtiene todas las ubicaciones agregadas(tabla contenedores)*/
     @GetMapping("/findContainers")
     public ResponseEntity<?> findContainers(){
-        return ResponseEntity.ok(contenedorService.findContenedores());
+        return ResponseEntity.ok(contenedorService.findAllByIsAvailable());
     }
 
     @GetMapping("/CountReportsByContainer/{ContainerName}")

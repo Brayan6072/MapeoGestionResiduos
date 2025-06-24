@@ -42,4 +42,8 @@ public interface ContenedoresRepository extends JpaRepository<Contenedores, Long
 
     @Query(value = "SELECT * FROM contenedores WHERE id = :id AND is_available = :is_available", nativeQuery = true)
     Contenedores getContainerById(@Param("id") Long id, @Param("is_available") String is_available);
+
+
+    @Query(value = "SELECT * FROM contenedores WHERE is_available = 'Activo';", nativeQuery = true)
+    List<Contenedores> findAllByIsAvailable();
 }

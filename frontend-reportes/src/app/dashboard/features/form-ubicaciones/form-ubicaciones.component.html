@@ -154,7 +154,7 @@
       type="submit"
       class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
     >
-      Actualizar
+      Buscar
     </button>
   </form>
 </section>
@@ -246,28 +246,31 @@
 
 
   <section class="">
-    <h4 class="font-bold mb-2">Clasificaciones del Contenedor</h4>
-    <div class="cont-main">
-        <div class="cont-checkbox flex" *ngFor="let data of checkbox; index as i">
-          <input #checkboxes type="checkbox" id="clasificaciones-{{data.id}}" value="{{data.id}}" (change)="getValueOfCheckbox($event)" />
-          <label for="clasificaciones-{{data.id}}">
-            <img  src="/Images/contenedores/{{data.name}}.webp" />
-            <span class="cover-checkbox">
-              <svg viewBox="0 0 12 10">
-                <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
-              </svg>
-            </span>
-            <div class="info">{{ data.name }}</div>
-          </label>
+    
+      <h4 class="font-bold mb-2">Clasificaciones del Contenedor</h4>
+      <div class="cont-main">
+          <div class="cont-checkbox flex" *ngFor="let data of checkbox; index as i">
+            <input #checkboxes type="checkbox" id="clasificaciones-{{data.id}}" value="{{data.id}}" (change)="getValueOfCheckboxUpdate($event)" [checked]="selectedValuesUpdate.includes(data.id.toString())" />
+            <label for="clasificaciones-{{data.id}}">
+              <img  src="/Images/contenedores/{{data.name}}.webp" />
+              <span class="cover-checkbox">
+                <svg viewBox="0 0 12 10">
+                  <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+                </svg>
+              </span>
+              <div class="info">{{ data.name }}</div>
+            </label>
+          </div>
         </div>
-      </div>
-      <button
-        type="submit"
-        class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
-      >
-      Actualizar Clasificaciones
-    </button>
+        <button (click)="UpdateClasfication()"
+          type="submit"
+          class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
+        >
+        Actualizar Clasificaciones
+      </button>
+    
   </section>
+
 </div>
 
 

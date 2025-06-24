@@ -37,10 +37,7 @@ public class ContenedorServiceImpl implements ContenedorService{
         return contenedoresRepository.deleteById(id);
     }
 
-    @Override
-    public List<Contenedores> findContenedores() {
-        return contenedoresRepository.findAll();
-    }
+
 
     @Override
     public List<Object[]> CountReportsByContainer(String ContainerName) {
@@ -56,6 +53,13 @@ public class ContenedorServiceImpl implements ContenedorService{
     public Contenedores getContainerById(Long id, String is_available) {
         return contenedoresRepository.getContainerById(id, is_available);
     }
+
+    @Override
+    public List<Contenedores> findAllByIsAvailable() {
+        return contenedoresRepository.findAllByIsAvailable();
+    }
+
+
 
     public Contenedores updateContainer(Long id,String is_available, Contenedores contenedores, MultipartFile imgFile) throws IOException{
         Contenedores updatecontainer =  contenedoresRepository.getContainerById(id, is_available);

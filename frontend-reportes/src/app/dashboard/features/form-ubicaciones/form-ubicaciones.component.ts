@@ -15,6 +15,12 @@ export interface Contenedores{
   latitud: String,  
   is_available?: String
 }
+
+export interface UpdateLocalizacionDTO{  
+  contenedor_id: number,
+  clasificacion_id: number[]
+}
+
 export interface LocalizacionDTO{  
   clasificacion_id: number[]
 }
@@ -71,17 +77,20 @@ export default class FormUbicacionesComponent implements OnInit{
   coords: string[] = [];
   @ViewChild('checkboxes', { static: false }) checkboxes!: QueryList<ElementRef<HTMLInputElement>>;
   @ViewChild('latitud', { static: false }) latitudinput!: ElementRef<HTMLInputElement>;
-  @ViewChild('longitud', { static: false }) longitudinput!: ElementRef<HTMLInputElement>;
-
+  @ViewChild('longitud', { static: false }) longitudinput!: ElementRef<HTMLInputElement>;  
 
   constructor(){
     
   }
+  nombrecontainer: String = '';
   idcontainer: String = '';
   urlpreview?: string;
 
   urlpreviewUpdate?: SafeUrl;
   selectedValues: String[]= [];
+  selectedValuesUpdate: String[]= [];
+
+  dataclasificacion: any[] = [];// Data for classification checkboxes
   data: any[] = [];  
   containerupdate: any[] = [];
   errorMessage: string | null = null;
@@ -165,7 +174,7 @@ export default class FormUbicacionesComponent implements OnInit{
     clasificaciones: this._formBuilder.control(false,Validators.required)    
   })
 
-
+  
 
 
    async delete() {
@@ -177,7 +186,7 @@ export default class FormUbicacionesComponent implements OnInit{
         const {id} = this.form.value; 
 
         if(!id) return;
-        this.idcontainer = id;
+        this.idcontainer = id;       
       
         await this._reportesPostService.DeleteUbicacion(id).subscribe();
         toast.success('Ubicacion eliminada');
@@ -261,6 +270,17 @@ export default class FormUbicacionesComponent implements OnInit{
       
     }
 
+
+    getValueOfCheckboxUpdate(event: Event) {
+      const checkbox = event.target as HTMLInputElement;
+      if (checkbox.checked) {
+        this.selectedValuesUpdate.push(checkbox.value);
+      }else {
+        this.selectedValuesUpdate = this.selectedValuesUpdate.filter(v => v !== checkbox.value);
+      }
+      
+    }
+
     getCoords(data: string[]){
       this.coords = data;
       this.addform.get('latitud')?.setValue(this.coords[0]);
@@ -273,6 +293,9 @@ export default class FormUbicacionesComponent implements OnInit{
       this._router.navigateByUrl('/dashboard', { skipLocationChange: true }).then(() => {
         this._router.navigate(['/dashboard']);
       });
+
+      
+
     }
     
 
@@ -329,18 +352,19 @@ export default class FormUbicacionesComponent implements OnInit{
     this.urlpreview = '';  
     this.urlpreviewUpdate = '';
     this.fileHandle = undefined;
-  
+    
   }
   
 async getDataUpdate() {
+  
   this.cancelPreview();
   if (this.formDataUpdate.invalid) return;
     
   try {
     const {id} = this.formDataUpdate.value;         
     if(!id) return;
-    this.idcontainer = id;
-  
+    this.idcontainer = id;  
+      
     this.loading.set(true);
     await this._reportesService.getContainerById(id).subscribe({
       next: async (containerupdate) => {
@@ -349,9 +373,11 @@ async getDataUpdate() {
           nombre: containerupdate.nombre ?? '',
           latitud: containerupdate.latitud ?? '',
           longitud: containerupdate.longitud ?? ''         
-        });
-
+        });        
+        const {nombre} = this.UpdateForm.value;
+         this.nombrecontainer = nombre ?? '';
         
+        await this.getContainerByName();
         if (containerupdate.img) {
           this.urlpreviewUpdate = this.getSafeUrl(containerupdate.img);
           
@@ -379,6 +405,7 @@ async getDataUpdate() {
     toast.error('Error al cargar datos de contenedor');
     this.loading.set(false);
   }
+  
 }
 
   getSafeUrl(base64Image: string): SafeUrl {
@@ -392,6 +419,7 @@ async getDataUpdate() {
   
 
   async UpdateContainer() {
+    
   if (this.UpdateForm.invalid) {
     toast.error('Completa todos los campos');
     return;
@@ -436,4 +464,72 @@ async base64ToFile(base64: string, filename: string): Promise<File> {
   const blob = await res.blob();
   return new File([blob], filename, { type: 'image/jpeg' });
 }
+
+
+async UpdateClasfication() {
+
+      console.log(this.selectedValuesUpdate);
+      if (this.selectedValuesUpdate.length == 0) {
+        toast.error('Selecciona al menos una clasificación');
+        return;
+      }
+    
+      
+      try {
+        
+        this.loading.set(true);
+        toast.success("Creando..")
+        
+        const payload: UpdateLocalizacionDTO = {         
+         
+            contenedor_id: Number(this.idcontainer),           
+            clasificacion_id: this.selectedValuesUpdate.map(v => Number(v)),
+          
+        };
+        
+        
+        await this._reportesPutService.UpdateContainerClassification(payload).subscribe({
+          next: () => {
+            
+            toast.success('Clasificaciones actualizadas correctamente'); 
+            this.Refrespage();   
+
+          },
+          error: (err) => {             
+              toast.error("Error al agregar la ubicación");                     
+            
+          },
+        });
+    
+      } catch (error) {
+        toast.error('Error inesperado');        
+      }finally{
+        
+        this.loading.set(false);
+      }
+    }
+
+
+
+    async getContainerByName() {
+      
+    this.loading.set(true);
+    this.errorMessage = null;
+
+    await this._reportesService.getClasificacionesByNombre(this.nombrecontainer).subscribe({
+      next: (dataclasificacion) => {
+        this.dataclasificacion = dataclasificacion;
+         this.selectedValuesUpdate = dataclasificacion.map((c: any) => String(c[0]));
+        
+        this.loading.set(false);
+      },
+      error: (err) => {
+        this.errorMessage = 'Error al cargar los datos';
+        this.loading.set(false);
+        console.error('Error:', err);
+      },
+    });
+  }
 }  
+
+

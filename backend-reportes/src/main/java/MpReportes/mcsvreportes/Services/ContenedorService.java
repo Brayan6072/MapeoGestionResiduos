@@ -12,10 +12,10 @@ public interface ContenedorService {
     Contenedores createContainer(Contenedores contenedores, MultipartFile imgFile) throws IOException;
     Long findIdByNombre(String nombreContenedor);
     int deleteById(int id);
-    List<Contenedores> findContenedores();
+
     List<Object[]> CountReportsByContainer(String ContainerName);
     boolean existsByNombre (String contenedorName);
     Contenedores getContainerById(Long id, String is_available);
-
+    List<Contenedores> findAllByIsAvailable();
 
 }

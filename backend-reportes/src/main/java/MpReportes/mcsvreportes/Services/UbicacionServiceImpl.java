@@ -80,4 +80,48 @@ public class UbicacionServiceImpl implements UbicacionService{
     }
 
 
+    @Transactional
+    @Override
+    public void UpdateClasificaciones(LocalizacionDTO localizacionDTO) {
+
+        updateAllAvailable("Inactivo", localizacionDTO.getContenedor_id());
+
+        List<Long> addClasificaciones = new ArrayList<>();
+
+        for(Long clasificacion_id : localizacionDTO.getClasificacion_id()) {
+
+            String is_available = findIsAvailable(localizacionDTO.getContenedor_id(), clasificacion_id);
+
+            if (is_available == null) {
+                addClasificaciones.add(clasificacion_id);
+            } else if ("Inactivo".equals(is_available)) {
+                updateIsAvailable("Activo", localizacionDTO.getContenedor_id(), clasificacion_id);
+            } else if (is_available.isEmpty()) {
+                addClasificaciones.add(clasificacion_id);
+            }
+        }
+
+        if (!addClasificaciones.isEmpty()) {
+            localizacionDTO.setClasificacion_id(addClasificaciones);
+            addLocation(localizacionDTO);
+        }
+    }
+
+    @Transactional
+    @Override
+    public String findIsAvailable(Long contenedor_id, Long clasificacion_id) {
+        return localizacionContenedoresRepository.findIsAvailable(contenedor_id, clasificacion_id);
+    }
+    @Transactional
+    @Override
+    public void updateIsAvailable(String is_available, Long contenedor_id, Long clasificacion_id) {
+        localizacionContenedoresRepository.updateIsAvailable(is_available, contenedor_id, clasificacion_id);
+    }
+    @Transactional
+    @Override
+    public void updateAllAvailable(String is_available, Long contenedor_id) {
+        localizacionContenedoresRepository.updateAllAvailable(is_available, contenedor_id);
+    }
+
+
 }

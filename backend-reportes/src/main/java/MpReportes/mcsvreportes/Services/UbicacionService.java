@@ -18,5 +18,9 @@ public interface UbicacionService {
     List<LocalizacionContenedores> addLocation(LocalizacionDTO localizacionDTO);
     int deleteByContenedor_id(int contenedor_id);
 
+    void UpdateClasificaciones(LocalizacionDTO localizacionDTO);
 
+    String findIsAvailable(Long contenedor_id ,Long clasificacion_id);
+    void updateIsAvailable (String is_available, Long contenedor_id, Long clasificacion_id);
+    void updateAllAvailable(String is_available, Long contenedor_id);
 }

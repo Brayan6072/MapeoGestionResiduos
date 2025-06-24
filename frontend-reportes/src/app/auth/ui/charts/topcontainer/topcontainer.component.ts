@@ -65,6 +65,7 @@ export default class TopcontainerComponent implements OnInit {
     });
   }
 
+  
   async CountReportsByContainer(contenedorName: string) {
     this.loading.set(true);
     this.errorMessage = null;

@@ -15,6 +15,12 @@ export interface Contenedores{
   is_available: String
 }
 
+export interface LocalizacionDTO{  
+  contenedor_id: number,
+  clasificacion_id: number[]
+}
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -26,6 +32,7 @@ export class ReportesputService {
   //private host = 'https://mcsv-reportes-backend-latest.onrender.com'; 
   private host = 'http://localhost:8099'; 
   private urlUpdateContainer = this.host + '/contenedores/UpdateContainer'; 
+  private urlUpdateContainerClassification = this.host + '/ubicaciones/UpdateClasificaciones';
 
 
   UpdateContainer(id:number, is_available: String, contenedor: Contenedores, fileHandle: FileHandle): Observable<any> {
@@ -48,6 +55,20 @@ export class ReportesputService {
       })
     );
   }
+
+
+  UpdateContainerClassification(localizacionDTO: LocalizacionDTO): Observable<string> {
+    return this.http.put(this.urlUpdateContainerClassification, localizacionDTO, {
+        responseType: 'text'  
+    }).pipe(
+      catchError((error) => {
+        console.error('Error updating container classification:', error);
+        return throwError(error);
+      }
+    )
+    );
+  }
+
 
 
 
