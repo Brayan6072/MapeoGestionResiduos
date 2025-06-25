@@ -72,7 +72,7 @@ export default class UbicacionesComponent implements AfterViewInit{
             `<div class="flex items-start bg-white p-4 rounded-lg">
               <img 
                 class="w-[180px] h-[200px] object-cover rounded-lg mr-4 "                 
-                src="/Images/Botes/Contenedores.webp"                 
+                src="${this.getSafeUrl(marcador[3])  as string}"                
               /> 
               <div class="flex flex-col"> 
                 <h3 class="m-0 font-semibold text-[#2c3e50] text-xl">
@@ -135,7 +135,14 @@ export default class UbicacionesComponent implements AfterViewInit{
 
 
   }
-
+  getSafeUrl(base64Image: string): string {
+  if (!base64Image) return '';
+  
+  if (base64Image.startsWith('data:image')) {
+    return base64Image;
+  }
+  return `data:image/jpeg;base64,${base64Image}`;
+}
   
 
   

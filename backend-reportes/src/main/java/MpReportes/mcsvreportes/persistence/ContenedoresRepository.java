@@ -1,12 +1,10 @@
 package MpReportes.mcsvreportes.persistence;
 
-import MpReportes.mcsvreportes.DTO.ContenedoresDTO;
 import MpReportes.mcsvreportes.Entities.Contenedores;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -46,4 +44,7 @@ public interface ContenedoresRepository extends JpaRepository<Contenedores, Long
 
     @Query(value = "SELECT * FROM contenedores WHERE is_available = 'Activo';", nativeQuery = true)
     List<Contenedores> findAllByIsAvailable();
+
+    @Query(value = "SELECT img FROM contenedores WHERE nombre = :nombre", nativeQuery = true)
+    Object[] findImgByName (@Param("nombre") String nombre);
 }

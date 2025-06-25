@@ -6,8 +6,8 @@ import { Observable, catchError, retry, throwError } from 'rxjs';
 })
 export class ReportesService {
   private http = inject(HttpClient); 
-  //private host = 'https://mcsv-reportes-backend-latest.onrender.com';
-  private host = 'http://localhost:8099'; 
+  private host = 'https://mcsv-reportes-backend-latest.onrender.com';
+  //private host = 'http://localhost:8099'; 
   private urlApi = this.host + '/reportes/search-estatus/';
   private urlLastWeek = this.host +'/reportes/CountLastWeek';
   private urlUbicaciones = this.host +'/ubicaciones/clasificaciones';
@@ -17,6 +17,7 @@ export class ReportesService {
   private urlgetIdLocalizacion = this.host + '/ubicaciones/UbicacionContenedor';
   private urlCountByContenedor = this.host + '/contenedores/CountReportsByContainer';
   private urlgetContainerById = this.host + '/contenedores/getContainerById';
+  private urlgetImgByName = this.host + '/contenedores/getImg';
 
   
   getReportesByEstatus(status: String): Observable<any> {
@@ -103,6 +104,14 @@ export class ReportesService {
       return this.http.get<any>(this.urlgetContainerById+ "/" + id).pipe(
         catchError((error) => {
           console.error('Error al obtener el contenedor por ID:', error);
+          return throwError(() => new Error('Error en la solicitud HTTP'));
+        }),
+      );
+    }
+    getImgByName(name: String): Observable<any> {
+      return this.http.get<any>(this.urlgetImgByName + "/" + name).pipe(
+        catchError((error) => {
+          console.error('Error al obtener la imagen por nombre:', error);
           return throwError(() => new Error('Error en la solicitud HTTP'));
         }),
       );

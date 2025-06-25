@@ -21,6 +21,6 @@ public interface ReporteService {
     List<Object[]> countReportesInLastWeek();
     List<Object[]> countReportesInLastMonth();
     List<Object[]> countAllReports();
-
+    List<Object[]> coutReportsIn6Hour();
 
 }

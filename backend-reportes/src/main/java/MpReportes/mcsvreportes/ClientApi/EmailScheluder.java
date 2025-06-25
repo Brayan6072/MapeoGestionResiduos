@@ -11,7 +11,7 @@ public class EmailScheluder {
     @Autowired
     private ReporteServicesImpl reporteServices;
     //cron = second minute hour day month day-of-week
-    @Scheduled(cron = "0 14 15 * * *", zone = "America/Mexico_City")
+    @Scheduled(cron = "0 0 12 * * *", zone = "America/Mexico_City")
     public void sendEmail(){
         try{
             reporteServices.SendMailAllUsers();

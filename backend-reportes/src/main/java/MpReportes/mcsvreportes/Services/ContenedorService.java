@@ -17,5 +17,5 @@ public interface ContenedorService {
     boolean existsByNombre (String contenedorName);
     Contenedores getContainerById(Long id, String is_available);
     List<Contenedores> findAllByIsAvailable();
-
+    Object[] findImgByName(String nombre);
 }

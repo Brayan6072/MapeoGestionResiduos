@@ -50,16 +50,15 @@ public class ReporteServicesImpl implements ReporteService{
        return reporteRepository.save(reportes);
     }
 
-    private void sendEmailWithTemplate(String to, String etiquetau, String clasificacion, String estado) throws MessagingException {
+    private void sendEmailWithTemplate(String to, List<Object[]> countReports) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
         helper.setFrom("brayandelgadodiaz03@gmail.com");
         helper.setTo(to);
         helper.setSubject("Reporte de Incidencia");
         Context context = new Context();
-        context.setVariable("etiq", etiquetau);
-        context.setVariable("clasif", clasificacion);
-        context.setVariable("estado", estado);
+        context.setVariable("coutReports", countReports);
+
         String htmlContent = templateEngine.process("emailTemplate", context);
         helper.setText(htmlContent, true);
         mailSender.send(message);
@@ -69,9 +68,11 @@ public class ReporteServicesImpl implements ReporteService{
 
     public void SendMailAllUsers(){
         List<String> destinatarios = List.of();
+        List<Object[]> coutReports = List.of();
+
         try {
             destinatarios = firebaseUserService.getAllUserEmails();
-
+            coutReports = coutReportsIn6Hour();
         } catch (Exception e) {
             e.printStackTrace();
 
@@ -80,7 +81,7 @@ public class ReporteServicesImpl implements ReporteService{
         for (String destinatario : destinatarios) {
 
             try {
-                sendEmailWithTemplate(destinatario, "Contenedor Prueba", "Clasificacion", "Lleno");
+                sendEmailWithTemplate(destinatario, coutReports );
             } catch (MessagingException e) {
                 e.printStackTrace(); }
         }
@@ -126,6 +127,11 @@ public class ReporteServicesImpl implements ReporteService{
     @Override
     public List<Object[]> countAllReports() {
         return reporteRepository.countAllReports();
+    }
+
+    @Override
+    public List<Object[]> coutReportsIn6Hour() {
+        return reporteRepository.coutReportsIn6Hour();
     }
 
 

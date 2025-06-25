@@ -59,6 +59,10 @@ public class ContenedorServiceImpl implements ContenedorService{
         return contenedoresRepository.findAllByIsAvailable();
     }
 
+    @Override
+    public Object[] findImgByName(String nombre) {
+        return contenedoresRepository.findImgByName(nombre);
+    }
 
 
     public Contenedores updateContainer(Long id,String is_available, Contenedores contenedores, MultipartFile imgFile) throws IOException{

@@ -38,29 +38,29 @@ public interface ReporteRepository extends JpaRepository<Reportes, Long> {
     Boolean existsByEstadoAndEstatusAndLocalizacionContenedores(String estado, String estatus, LocalizacionContenedores localizacionContenedores);
 
     @Query(value = "SELECT \n" +
-            "\tcl.nombre AS Clasificacion, \n" +
+            "\tcl.nombre AS Clasificacion,\n" +
             "\tCOUNT(*) AS Numero_reportes\n" +
             "FROM \n" +
             "\treportes r\n" +
             "JOIN \n" +
-            "\tlocalizacion_contenedores lc ON r.localizacion_contenedores_id = lc.id\n" +
+            "localizacion_contenedores lc ON r.localizacion_contenedores_id = lc.id\n" +
             "JOIN \n" +
-            "\tclasificaciones cl ON lc.clasificacion_id = cl.id\n" +
-            "WHERE \n" +
-            "\tfecha >= CURDATE() - INTERVAL 7 DAY GROUP BY Clasificacion;",nativeQuery = true)
+            "clasificaciones cl ON lc.clasificacion_id = cl.id\n" +
+            "WHERE fecha >= CURDATE() - INTERVAL 7 DAY \n" +
+            "GROUP BY cl.nombre;",nativeQuery = true)
     List<Object[]> countReportesInLastWeek();
 
     @Query(value = "SELECT \n" +
-            "\tcl.nombre AS Clasificacion, \n" +
+            "\tcl.nombre AS Clasificacion,\n" +
             "\tCOUNT(*) AS Numero_reportes\n" +
             "FROM \n" +
             "\treportes r\n" +
             "JOIN \n" +
-            "\tlocalizacion_contenedores lc ON r.localizacion_contenedores_id = lc.id\n" +
+            "localizacion_contenedores lc ON r.localizacion_contenedores_id = lc.id\n" +
             "JOIN \n" +
-            "\tclasificaciones cl ON lc.clasificacion_id = cl.id\n" +
-            "WHERE \n" +
-            "\tfecha >= CURDATE() - INTERVAL 1 MONTH GROUP BY Clasificacion;", nativeQuery = true)
+            "clasificaciones cl ON lc.clasificacion_id = cl.id\n" +
+            "WHERE fecha >= CURDATE() - INTERVAL 1 MONTH \n" +
+            "GROUP BY cl.nombre;", nativeQuery = true)
     List<Object[]> countReportesInLastMonth();
 
     @Query(value = "SELECT\n" +
@@ -74,6 +74,22 @@ public interface ReporteRepository extends JpaRepository<Reportes, Long> {
             "GROUP BY nombre_contenedor ORDER BY n_reportes DESC;", nativeQuery = true)
     List<Object[]> countAllReports();
 
+    @Query(value = "SELECT\n" +
+            "    c.nombre AS nombre_contenedor, \n" +
+            "    COUNT(*) AS n_reportes\n" +
+            "FROM \n" +
+            "    reportes r \n" +
+            "JOIN \n" +
+            "    localizacion_contenedores lc ON r.localizacion_contenedores_id = lc.id\n" +
+            "JOIN \n" +
+            "    contenedores c ON lc.contenedor_id = c.id\n" +
+            "WHERE \n" +
+            "    r.fecha >= CURDATE() - INTERVAL 1 DAY \n" +
+            "GROUP BY \n" +
+            "    c.nombre \n" +
+            "ORDER BY \n" +
+            "    n_reportes DESC;", nativeQuery = true)
+    List<Object[]> coutReportsIn6Hour();
 
 
 

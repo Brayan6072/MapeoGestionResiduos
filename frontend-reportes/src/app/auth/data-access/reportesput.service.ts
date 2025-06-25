@@ -29,8 +29,8 @@ export class ReportesputService {
   constructor() { }
 
   private http = inject(HttpClient);  
-  //private host = 'https://mcsv-reportes-backend-latest.onrender.com'; 
-  private host = 'http://localhost:8099'; 
+  private host = 'https://mcsv-reportes-backend-latest.onrender.com'; 
+  //private host = 'http://localhost:8099'; 
   private urlUpdateContainer = this.host + '/contenedores/UpdateContainer'; 
   private urlUpdateContainerClassification = this.host + '/ubicaciones/UpdateClasificaciones';
 

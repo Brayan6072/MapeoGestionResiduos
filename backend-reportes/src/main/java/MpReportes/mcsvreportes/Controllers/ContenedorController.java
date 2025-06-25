@@ -62,4 +62,10 @@ public class ContenedorController {
                                               @RequestPart("imgFile") MultipartFile imgFile) throws IOException{
         return ResponseEntity.ok(contenedorService.updateContainer(id, is_available,contenedores, imgFile));
     }
+    /*Obtener img en base64 segun el nombre del contenedor*/
+    @GetMapping("/getImg/{nombre}")
+    public ResponseEntity<?> findImgByName(@PathVariable String nombre){
+        return ResponseEntity.ok(contenedorService.findImgByName(nombre));
+
+    }
 }

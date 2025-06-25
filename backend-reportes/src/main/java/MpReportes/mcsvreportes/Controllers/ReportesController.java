@@ -119,5 +119,8 @@ public class ReportesController {
         return ResponseEntity.ok(reporteService.countAllReports());
     }
 
-
+    @GetMapping("/ReportsIn6Hrs")
+    public ResponseEntity<?> coutReportsIn6Hour(){
+        return ResponseEntity.ok(reporteService.coutReportsIn6Hour());
+    }
 }

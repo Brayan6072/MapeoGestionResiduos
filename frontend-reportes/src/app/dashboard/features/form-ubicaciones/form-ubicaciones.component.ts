@@ -75,6 +75,9 @@ export default class FormUbicacionesComponent implements OnInit{
 
   selectedContainer: string = '';
   coords: string[] = [];
+  PermissionRemove: boolean = false;
+  showPopupModal: boolean = false; 
+
   @ViewChild('checkboxes', { static: false }) checkboxes!: QueryList<ElementRef<HTMLInputElement>>;
   @ViewChild('latitud', { static: false }) latitudinput!: ElementRef<HTMLInputElement>;
   @ViewChild('longitud', { static: false }) longitudinput!: ElementRef<HTMLInputElement>;  
@@ -177,9 +180,9 @@ export default class FormUbicacionesComponent implements OnInit{
   
 
 
-   async delete() {
-    
-      if (this.form.invalid) return; 
+   async delete() {     
+      
+      if (this.form.invalid || this.PermissionRemove == false) return; 
       
       try{
         
@@ -529,6 +532,29 @@ async UpdateClasfication() {
         console.error('Error:', err);
       },
     });
+  }
+
+
+
+
+  PermitRemove(permissions: boolean) {
+    this.PermissionRemove = permissions;
+    if (this.PermissionRemove) {
+      this.delete();
+    } else {      
+      toast.error('Eliminación cancelada');
+    }
+    this.closePopupModal();
+  }
+
+
+
+  openPopupModal() {
+    this.showPopupModal = true;
+  }
+
+  closePopupModal() {
+    this.showPopupModal = false;
   }
 }  
 

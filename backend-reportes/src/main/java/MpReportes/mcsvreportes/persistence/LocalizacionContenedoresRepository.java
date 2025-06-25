@@ -29,6 +29,7 @@ public interface LocalizacionContenedoresRepository extends JpaRepository<Locali
             "    c.nombre AS nombre_contenedor,\n" +
             "    c.latitud,\n" +
             "    c.longitud,\n" +
+            "    c.img, \n" +
             "    GROUP_CONCAT(cl.nombre SEPARATOR ', ') AS clasificacion\n" +
             "FROM \n" +
             "    contenedores c\n" +

@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import ClasificacionesComponent from '../clasificaciones/clasificaciones.component';
 import { toast } from 'ngx-sonner';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 
 
@@ -17,6 +18,7 @@ import { toast } from 'ngx-sonner';
 })
 export default class MapaComponent implements AfterViewInit{
   private _reporteService = inject(ReportesService);
+    private _sanitazer: DomSanitizer = inject(DomSanitizer);
   @ViewChild('bottom-gallery-wrapper', { static: false }) clasificaciones_div!: ElementRef<HTMLDivElement>;
   
   hide: boolean;/*ocultar clasificaciones */
@@ -24,6 +26,7 @@ export default class MapaComponent implements AfterViewInit{
   private map!: L.Map /*mapa */
   private watchId: any; /*ubicacion */
   private markeruser!: L.Marker;
+  
   
   clasificacion: any/*almacena y comparte las clasificaciones */
   residuos: any[] = [];/* clasificaciones consumida del api*/
@@ -123,14 +126,14 @@ export default class MapaComponent implements AfterViewInit{
     this._reporteService.getUbicaciones().subscribe({
       next: (data: any[]) => {
         const punteros: L.Marker[] = [];
-        
+        console.log('Datos obtenidos:', data);
 
-        data.forEach((marcador) => {
+        data.forEach(async (marcador) => {
           
           const puntero = L.marker([marcador[1], marcador[2]], { icon: customIcon });
           punteros.push(puntero);
 
-          const residuos = marcador[3].split(",").map((r: string) => r.trim());
+          const residuos = marcador[4].split(",").map((r: string) => r.trim());
 
           residuos.forEach((grupo: string) => {
             switch (grupo) {
@@ -154,12 +157,13 @@ export default class MapaComponent implements AfterViewInit{
                 break;
             }
           });
+          
 
           puntero.bindPopup(
             `<div class="flex items-start bg-white p-4 rounded-lg">
               <img 
                 class="w-[180px] h-[200px] object-cover rounded-lg mr-4 "                 
-                src="/Images/Botes/Contenedores.webp"                 
+                src="${this.getSafeUrl(marcador[3])  as string}"
               /> 
               <div class="flex flex-col"> 
                 <h3 class="m-0 font-semibold text-[#2c3e50] text-xl">
@@ -178,10 +182,10 @@ export default class MapaComponent implements AfterViewInit{
               </div>
             </div>`
           , { minWidth: 415 }).on('click', () => this.getimg(residuos));
-          
+            
         });
         
-
+        
         
         grupoOrganicos.addTo(this.map);
         grupoPapel.addTo(this.map);
@@ -235,9 +239,17 @@ export default class MapaComponent implements AfterViewInit{
     this.hide = true;
   }
   
+  getSafeUrl(base64Image: string): string {
+  if (!base64Image) return '';
   
+  if (base64Image.startsWith('data:image')) {
+    return base64Image;
+  }
+  return `data:image/jpeg;base64,${base64Image}`;
+}
   
 
+  
 }
 
 

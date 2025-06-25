@@ -31,8 +31,8 @@ export interface UbicacionDTO{
 })
 export class ReportespostService {
   private http = inject(HttpClient);  
-  //private host = 'https://mcsv-reportes-backend-latest.onrender.com'; 
-  private host = 'http://localhost:8099'; 
+  private host = 'https://mcsv-reportes-backend-latest.onrender.com'; 
+  //private host = 'http://localhost:8099'; 
   private reportarUrl = this.host + '/reportes/reportar'; 
   private deleteurl = this.host + '/ubicaciones/deleteUbicacion/'
   private addurl = this.host + '/ubicaciones/addContenedores';
