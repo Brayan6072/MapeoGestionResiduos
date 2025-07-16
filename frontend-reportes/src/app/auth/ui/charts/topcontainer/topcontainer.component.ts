@@ -1,5 +1,5 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, inject, Inject, NgZone, OnInit, PLATFORM_ID, signal } from '@angular/core';
+import { AfterViewInit, Component, inject, Inject, NgZone, OnDestroy, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { ReportesService } from '../../../data-access/reportes.service';
 import { Form, FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import * as am5 from '@amcharts/amcharts5';
@@ -17,7 +17,7 @@ export interface formChart {
   templateUrl: './topcontainer.component.html',
   styleUrl: './topcontainer.component.css'
 })
-export default class TopcontainerComponent implements OnInit {
+export default class TopcontainerComponent implements AfterViewInit ,OnDestroy{
   private _reportesService = inject(ReportesService)
   private _formBuilder = inject(FormBuilder);
   
@@ -25,37 +25,31 @@ export default class TopcontainerComponent implements OnInit {
   countdata: any[] = []; 
   errorMessage: string | null = null;
   loading = signal<boolean>(false);
+  hidechart = false;
   private root!: am5.Root;
 
-  constructor(
-    @Inject(PLATFORM_ID) private platformId: Object, 
-    private zone: NgZone
-  ) {}
-
-  ngOnInit(): void {
-    this.getContainers();    
+ 
+  ngAfterViewInit(): void {
+       
+    this.getRankingContainers();
   }
 
-  private browserOnly(f: () => void) {
-    if (isPlatformBrowser(this.platformId)) {
-      this.zone.runOutsideAngular(() => {
-        f();
-      });
-    }
-  }
+  
 
   form = this._formBuilder.group<formChart>({
     contenedorName: this._formBuilder.control('', Validators.required)
   });
 
-  async getContainers(){
+  
+  async getRankingContainers(){
     this.loading.set(true);
     this.errorMessage = null;
 
-    await this._reportesService.findContainers().subscribe({
-      next: (data) => {
-        this.data = data;
-        this.loading.set(false);        
+    await this._reportesService.getRankingContainer().subscribe({
+      next: (rank) => {
+        this.data = rank;
+        
+        this.loading.set(false);
       },
       error: (err) => {
         this.errorMessage = 'Error al cargar los datos';
@@ -64,6 +58,8 @@ export default class TopcontainerComponent implements OnInit {
       },
     });
   }
+
+
 
   
   async CountReportsByContainer(contenedorName: string) {
@@ -74,8 +70,8 @@ export default class TopcontainerComponent implements OnInit {
       next: (countdata) => {
         this.countdata = countdata;
         this.loading.set(false);
+        this.createChart();
         
-        console.log('Count data:', this.countdata);
       },
       error: (err) => {
         this.errorMessage = 'Error al cargar los datos';
@@ -91,21 +87,16 @@ export default class TopcontainerComponent implements OnInit {
       
       const {contenedorName} = this.form.value;
       
-      if(!contenedorName) return;
+      if(!contenedorName) return;  
       
+      this.hidechart = true;
       this.CountReportsByContainer(contenedorName);
       
     } 
   }
 
     createChart(): void {
-      this.ShowChart();
-      this.browserOnly(() => {
-        
-        if (this.root) {
-          this.root.dispose();
-        }
-  
+      this.ngOnDestroy();
         
         this.root = am5.Root.new("chartdiv");
         this.root.setThemes([am5themes_Dataviz.new(this.root)]);
@@ -116,8 +107,7 @@ export default class TopcontainerComponent implements OnInit {
             layout: this.root.verticalLayout
           })
         );
-        
-        
+              
         const chartData = this.countdata.map(item => ({
           category: item[1],  
           value: item[2]     
@@ -159,15 +149,14 @@ export default class TopcontainerComponent implements OnInit {
   
        
         chart.set("cursor", am5xy.XYCursor.new(this.root, {}));
-      });
+      
     }
   
-    ngOnDestroy() {
+    ngOnDestroy() {     
       
-      this.browserOnly(() => {
         if (this.root) {
-          this.root.dispose();
+          this.root.dispose();          
         }
-      });
+      
     }
 }

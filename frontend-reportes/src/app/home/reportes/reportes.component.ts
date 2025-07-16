@@ -44,7 +44,6 @@ export default class ReportesComponent {
     this._reportesService.getUbicacionContenedor(this.contenedor()).subscribe({
       next: (data: any[]) => {
         this.data = data;
-        console.log(this.data);
         
       },
       error: (error) => {
@@ -72,7 +71,7 @@ export default class ReportesComponent {
         return;
       }
 
-      console.log(localizacionContenedores.id);
+      
       try {
         this.loading = true;
          this._reportespostService.ReportarContenedor({

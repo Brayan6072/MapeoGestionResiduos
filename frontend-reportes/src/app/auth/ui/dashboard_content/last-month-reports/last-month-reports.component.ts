@@ -1,9 +1,9 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, inject, Inject, NgZone, OnInit, PLATFORM_ID } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, Inject, NgZone, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import * as am5 from '@amcharts/amcharts5';
 import * as am5xy from '@amcharts/amcharts5/xy';
 import am5themes_Dataviz from '@amcharts/amcharts5/themes/Dataviz';
-import { ReportesService } from '../../data-access/reportes.service';
+import { ReportesService } from '../../../data-access/reportes.service';
 
 @Component({
   selector: 'app-last-month-reports',
@@ -15,12 +15,13 @@ export default class LastMonthReportsComponent implements OnInit{
   private _reporteService = inject(ReportesService);
     dataLastMonth: any[] = []; 
     errorMessage: string | null = null;
-    isLoading = true; 
+    isLoading = signal(false); 
     private root!: am5.Root;
   
     constructor(
       @Inject(PLATFORM_ID) private platformId: Object, 
-      private zone: NgZone
+      private zone: NgZone,
+      private cdr: ChangeDetectorRef
     ) {}
   
     ngOnInit(): void {
@@ -38,19 +39,22 @@ export default class LastMonthReportsComponent implements OnInit{
   
   
     private loadChartData(): void {
+      this.isLoading.set(true);
       this._reporteService.getReportesLastMonth().subscribe({
         next: (data) => {
           this.dataLastMonth = data;
-          this.isLoading = false;
-          
+          this.isLoading.set(false);         
+          this.cdr.detectChanges();
           this.createChart();
         },
         error: (err) => {
           this.errorMessage = 'Error al cargar los datos';
-          this.isLoading = false;
+          this.isLoading.set(false);
           console.error('Error:', err);
         },
       });
+      
+
     }
   
   

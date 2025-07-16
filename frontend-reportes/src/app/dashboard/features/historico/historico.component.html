@@ -29,11 +29,11 @@
         <td class="px-6 py-4">
           @if (item[3] == 'Danado') {Dañado} @else {{{item[3]}}}
         </td>
-        <td class="px-6 py-4">
-          <div class="flex items-center">
-            <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div>
-            {{ item[4] }}
-          </div>
+        <td class="px-6 py-4">         
+          <span class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
+                <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
+                @if (item[4] == 'Verde') {Atendido}
+            </span>
         </td>
        
       </tr>

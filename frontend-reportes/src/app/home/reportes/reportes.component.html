@@ -1,5 +1,5 @@
-<form class="cont-bg" [formGroup]="form" (ngSubmit)="submit()">
-  <h5 class="text-black mb-5">{{contenedor()}}</h5>  
+<form class="cont-bg " [formGroup]="form" (ngSubmit)="submit()">
+  <h5 class="text-black text-xl font-medium mb-5">{{contenedor()}}</h5>  
   
   <div class="cont-main">
 
@@ -13,7 +13,7 @@
         formControlName="localizacionContenedores"
       />
       <label for="myRadio-{{ i }}">
-        <img src="/Images/contenedores/{{type[1]}}.webp" />
+        <img loading="lazy" src="/Images/contenedores/{{type[1]}}.webp" />
         <span class="cover-checkbox">
           <svg viewBox="0 0 12 10">
             <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
@@ -23,13 +23,14 @@
       </label>
     </div>
   </div>
-  <h5 class="text-black mb-5">Estado</h5>
-  <div class="cont-main">
+  <h5 class="text-black font-medium text-xl mb-5">Estado</h5>
+  <div class="cont-main mb-5">
     <div class="cont-checkbox">
       <input type="radio" name="estado" id="Lleno" value="Lleno" formControlName="estado"/>
       <label for="Lleno">
         <img
-          src="https://png.pngtree.com/png-clipart/20220729/original/pngtree-full-garbage-bin-pollution-container-png-image_8425529.png"
+          laoding="lazy"
+          src="Images/icons/Full.webp"
         />
         <span class="cover-checkbox">
           <svg viewBox="0 0 12 10">
@@ -50,8 +51,9 @@
       />
       <label for="Basura mezclada">
         <img
+          loading="lazy"
           class="object-cover"
-          src="https://i.pinimg.com/736x/c2/be/89/c2be8919dff5bf462afb1eb0d1b2f7c5.jpg"
+          src="Images/icons/Mixed.webp"
         />
         <span class="cover-checkbox">
           <svg viewBox="0 0 12 10">
@@ -65,7 +67,8 @@
       <input type="radio" name="estado" id="dañado" value="Danado" formControlName="estado"/>
       <label for="dañado">
         <img
-          src="Images/icons/break.webp"
+          loading="lazy"
+          src="Images/icons/Break.webp"
         />
         <span class="cover-checkbox">
           <svg viewBox="0 0 12 10">
@@ -80,8 +83,9 @@
   <button    
     
     type="Enviar"
-    class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
+    class="flex flex-row gap-2 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
   >
-    @if (loading) {Enviando..}@else {Enviar}
+  <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-send"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 14l11 -11" /><path d="M21 3l-6.5 18a.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a.55 .55 0 0 1 0 -1l18 -6.5" /></svg>
+    <p class="text-md">@if (loading) {Enviando..}@else {Enviar}</p>
   </button>
 </form>

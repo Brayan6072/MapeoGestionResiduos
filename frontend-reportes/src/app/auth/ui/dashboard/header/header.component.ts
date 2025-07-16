@@ -1,9 +1,9 @@
 import { Component, EventEmitter, inject, Output } from '@angular/core';
-import { AuthStateService } from '../../../shared/data-access/auth-state.service';
+import { AuthStateService } from '../../../../shared/data-access/auth-state.service';
 import { RouterLink } from '@angular/router';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { toast } from 'ngx-sonner';
-import { UiserviceService } from '../uiservice.service';
+import { UiserviceService } from '../../uiservice.service';
 
 @Component({
   selector: 'app-header',

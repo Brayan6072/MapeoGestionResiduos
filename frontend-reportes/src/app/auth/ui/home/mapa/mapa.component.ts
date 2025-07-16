@@ -1,6 +1,6 @@
-import { Component, OnInit, AfterViewInit, inject, ViewChild, ElementRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, inject, ViewChild, ElementRef, OnDestroy, signal } from '@angular/core';
 import * as L from 'leaflet';
-import { ReportesService } from '../../data-access/reportes.service';
+import { ReportesService } from '../../../data-access/reportes.service';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import ClasificacionesComponent from '../clasificaciones/clasificaciones.component';
@@ -21,16 +21,17 @@ export default class MapaComponent implements AfterViewInit{
     private _sanitazer: DomSanitizer = inject(DomSanitizer);
   @ViewChild('bottom-gallery-wrapper', { static: false }) clasificaciones_div!: ElementRef<HTMLDivElement>;
   
-  hide: boolean;/*ocultar clasificaciones */
-
   private map!: L.Map /*mapa */
   private watchId: any; /*ubicacion */
   private markeruser!: L.Marker;
   
-  
+  hide: boolean;/*ocultar clasificaciones */
+  isLoading = signal(false); /*cargando */
+
   clasificacion: any/*almacena y comparte las clasificaciones */
   residuos: any[] = [];/* clasificaciones consumida del api*/
-  
+  datasize: number = 0;
+
   markers: L.Marker[] = [
     L.marker([20.566736996117946, -103.22846090067654])
   ];
@@ -55,7 +56,8 @@ export default class MapaComponent implements AfterViewInit{
     popupAnchor: [0, -32]
   });
   ngAfterViewInit() {
-    this.initMap();
+    this.isLoading.set(true);   
+    this.initMap();   
     
   }
   
@@ -115,22 +117,34 @@ export default class MapaComponent implements AfterViewInit{
     const grupoOrganicos = L.layerGroup();
 
     this.map.zoomControl.remove();
-    const customIcon = L.icon({
-      iconUrl: '/Images/marker.webp',
-      iconSize: [34, 34],
-      iconAnchor: [18, 34],
-      popupAnchor: [0, -32]
-    });
-
+    
     
     this._reporteService.getUbicaciones().subscribe({
       next: (data: any[]) => {
+        
         const punteros: L.Marker[] = [];
-        console.log('Datos obtenidos:', data);
+        this.datasize = data.length;
+
+        
 
         data.forEach(async (marcador) => {
-          
-          const puntero = L.marker([marcador[1], marcador[2]], { icon: customIcon });
+
+          const customIcon = L.divIcon({
+            className: 'custom-div-icon',
+            html: `            
+              <div>
+                <img src="/Images/marker.webp" style="width: 34px; height: 34px;"/>
+                <span>${marcador[0]}</span>
+              </div>
+            `,
+            iconUrl: '/Images/marker.webp',
+            iconSize: [34, 34],
+            iconAnchor: [18, 34],
+            popupAnchor: [0, -32]
+          });
+
+          const puntero = L.marker([marcador[1], marcador[2]], { icon: customIcon});
+         
           punteros.push(puntero);
 
           const residuos = marcador[4].split(",").map((r: string) => r.trim());
@@ -162,6 +176,7 @@ export default class MapaComponent implements AfterViewInit{
           puntero.bindPopup(
             `<div class="flex items-start bg-white p-4 rounded-lg">
               <img 
+                loading="lazy"
                 class="w-[180px] h-[200px] object-cover rounded-lg mr-4 "                 
                 src="${this.getSafeUrl(marcador[3])  as string}"
               /> 
@@ -214,17 +229,19 @@ export default class MapaComponent implements AfterViewInit{
           
           const defaultBounds = L.latLngBounds(this.markers.map(marker => marker.getLatLng()));
           this.map.fitBounds(defaultBounds);
-        } 
-
-
+        }      
+        
       },
       error: (err) => {
         console.error('Error:', err);
-       
+        
         const defaultBounds = L.latLngBounds(this.markers.map(marker => marker.getLatLng()));
         this.map.fitBounds(defaultBounds);
+        
       }
     });
+   
+    this.isLoading.set(false); /*cargando */
   }
 
 

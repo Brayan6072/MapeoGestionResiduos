@@ -1,9 +1,9 @@
 import { Component, inject } from "@angular/core";
 import { Router, RouterModule } from "@angular/router";
 import { AuthStateService } from "../data-access/auth-state.service";
-import { FooterComponent } from "../../auth/ui/footer/footer.component";
-import { HeaderComponent } from "../../auth/ui/header/header.component";
-import { SidebarComponent } from "../../auth/ui/sidebar/sidebar.component";
+import { FooterComponent } from "../../auth/ui/dashboard/footer/footer.component";
+import { HeaderComponent } from "../../auth/ui/dashboard/header/header.component";
+import { SidebarComponent } from "../../auth/ui/dashboard/sidebar/sidebar.component";
 import { ReactiveFormsModule } from "@angular/forms";
 import { toast } from "ngx-sonner";
 

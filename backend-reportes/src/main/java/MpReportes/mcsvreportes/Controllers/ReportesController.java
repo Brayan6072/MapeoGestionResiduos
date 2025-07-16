@@ -119,8 +119,16 @@ public class ReportesController {
         return ResponseEntity.ok(reporteService.countAllReports());
     }
 
+
+    /*Corte de 6hrs para enviar un correo de los contenedores*/
     @GetMapping("/ReportsIn6Hrs")
     public ResponseEntity<?> coutReportsIn6Hour(){
         return ResponseEntity.ok(reporteService.coutReportsIn6Hour());
+    }
+
+
+    @GetMapping("/rankingContainer")
+    public ResponseEntity<?> rankingContainer(){
+        return ResponseEntity.ok(reporteService.rankingContainer());
     }
 }

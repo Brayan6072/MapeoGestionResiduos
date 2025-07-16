@@ -1,8 +1,8 @@
 import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
-import { AuthStateService } from '../../../shared/data-access/auth-state.service';
+import { AuthStateService } from '../../../../shared/data-access/auth-state.service';
 import { Router, RouterLink } from '@angular/router';
 import { toast } from 'ngx-sonner';
-import { UiserviceService } from '../uiservice.service';
+import { UiserviceService } from '../../uiservice.service';
 
 @Component({
   selector: 'app-sidebar',

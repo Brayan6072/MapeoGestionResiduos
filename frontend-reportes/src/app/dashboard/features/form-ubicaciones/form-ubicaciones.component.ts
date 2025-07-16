@@ -2,11 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component, ElementRef, inject, Input, OnInit, QueryList, signal, ViewChild } from '@angular/core';
 import { Form, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ReportesService } from '../../../auth/data-access/reportes.service';
-import MapaComponent from "../../../auth/ui/mapa/mapa.component";
+import MapaComponent from "../../../auth/ui/home/mapa/mapa.component";
 import { ReportespostService } from '../../../auth/data-access/reportespost.service';
 import { toast } from 'ngx-sonner';
 import { Router } from '@angular/router';
-import UbicacionesComponent from "../../../auth/ui/ubicaciones/ubicaciones.component";
+import UbicacionesComponent from "../../../auth/ui/forms/ubicaciones/ubicaciones.component";
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ReportesputService } from '../../../auth/data-access/reportesput.service';
 export interface Contenedores{
@@ -81,6 +81,8 @@ export default class FormUbicacionesComponent implements OnInit{
   @ViewChild('checkboxes', { static: false }) checkboxes!: QueryList<ElementRef<HTMLInputElement>>;
   @ViewChild('latitud', { static: false }) latitudinput!: ElementRef<HTMLInputElement>;
   @ViewChild('longitud', { static: false }) longitudinput!: ElementRef<HTMLInputElement>;  
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+
 
   constructor(){
     
@@ -89,7 +91,7 @@ export default class FormUbicacionesComponent implements OnInit{
   idcontainer: String = '';
   urlpreview?: string;
 
-  urlpreviewUpdate?: SafeUrl;
+  urlpreviewUpdate?: SafeUrl |string;
   selectedValues: String[]= [];
   selectedValuesUpdate: String[]= [];
 
@@ -131,9 +133,6 @@ export default class FormUbicacionesComponent implements OnInit{
     this.getContainers();
     
   }
-
-
-  
 
 
   async getContainers(){
@@ -303,7 +302,7 @@ export default class FormUbicacionesComponent implements OnInit{
     
 
     onFileSelected(event: any) {
-    
+    this.urlpreview = ''; 
 
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
@@ -329,7 +328,6 @@ export default class FormUbicacionesComponent implements OnInit{
 
   onFileSelectedForUpdate(event: any) {
     
-
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
       const reader = new FileReader();
@@ -343,7 +341,9 @@ export default class FormUbicacionesComponent implements OnInit{
         file: file,
         url: this._sanitazer.bypassSecurityTrustUrl(window.URL.createObjectURL(file))
       };    
-          this.UpdateForm.get('imgFile')?.setValue(file);
+        
+      
+          
     } else {
       this.urlpreviewUpdate  = ''; 
      
@@ -354,8 +354,8 @@ export default class FormUbicacionesComponent implements OnInit{
   cancelPreview() {
     this.urlpreview = '';  
     this.urlpreviewUpdate = '';
-    this.fileHandle = undefined;
-    
+    this.fileHandle = undefined; 
+        
   }
   
 async getDataUpdate() {
@@ -470,8 +470,7 @@ async base64ToFile(base64: string, filename: string): Promise<File> {
 
 
 async UpdateClasfication() {
-
-      console.log(this.selectedValuesUpdate);
+      
       if (this.selectedValuesUpdate.length == 0) {
         toast.error('Selecciona al menos una clasificación');
         return;

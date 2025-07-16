@@ -24,7 +24,7 @@
         <th scope="col" class="px-6 py-3">Hora</th>
         <th scope="col" class="px-6 py-3">Contenedor</th>
         <th scope="col" class="px-6 py-3">Clasificacion</th>
-        <th scope="col" class="px-6 py-3">Estado</th>
+        <th scope="col" class="px-6 py-3">Incidencia</th>
         <th scope="col" class="px-6 py-3">Estatus</th>
         <th scope="col" class="px-6 py-3">Acciones</th>
       </tr>
@@ -40,13 +40,14 @@
         <td class="px-6 py-4">{{ item[5] }}</td>
         <td class="px-6 py-4">{{ item[6] }}</td>
         <td class="px-6 py-4">
-          @if (item[3] == 'Danado') {Dañado} @else {{{item[5]}}}
+          @if (item[3] == 'Danado') {Dañado} @else {{{item[3]}}}
         </td>
-        <td class="px-6 py-4">
-          <div class="flex items-center">
-            <div class="h-2.5 w-2.5 rounded-full bg-red-500 me-2"></div>
-            {{ item[4] }}
-          </div>
+        <td class="px-6 py-4">          
+          <span class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full ">
+                <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
+                @if (item[4] == 'Rojo') {No atendido} @else if (item[4] == 'Verde') {Atendido}
+            </span>         
+
         </td>
 
         

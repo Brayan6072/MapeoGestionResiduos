@@ -134,5 +134,10 @@ public class ReporteServicesImpl implements ReporteService{
         return reporteRepository.coutReportsIn6Hour();
     }
 
+    @Override
+    public List<Object[]> rankingContainer() {
+        return reporteRepository.rankingContainer();
+    }
+
 
 }

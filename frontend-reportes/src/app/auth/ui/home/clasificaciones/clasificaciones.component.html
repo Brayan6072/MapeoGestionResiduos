@@ -2,7 +2,7 @@
     <div class="bottom-gallery">
         <div class="image-container" *ngFor="let item of residuos">
             
-            <img id="{{item}}" src="/Images/contenedores/{{item}}.webp" alt="" (click)="ChargeIcons(item)">
+            <img id="{{item}}" loading="lazy" src="/Images/contenedores/{{item}}.webp" alt="" (click)="ChargeIcons(item)">
         </div>
     </div>    
 </div>
@@ -21,7 +21,7 @@
                 
                 <div class="icon-item" *ngFor="let icons of dataicons.urls">
                     
-                    <img src="{{icons.url}}" width='35px' height='35px' class="icon">
+                    <img loading="lazy" src="{{icons.url}}" width='35px' height='35px' class="icon">
                     <span>{{icons.label}}</span>
                 </div>            
             </div>

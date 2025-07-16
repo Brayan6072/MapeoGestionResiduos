@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, EventEmitter, inject, Input, Optional, Output, ViewChild } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import L from 'leaflet';
-import { ReportesService } from '../../data-access/reportes.service';
+import { ReportesService } from '../../../data-access/reportes.service';
 import { toast } from 'ngx-sonner';
 
 @Component({
@@ -23,7 +23,7 @@ export default class UbicacionesComponent implements AfterViewInit{
   markers: L.Marker[] = [
     L.marker([20.566736996117946, -103.22846090067654])
   ];
-  addmarker = L.icon({
+  addmarker = L.icon({ /*puntero para que el usuario seleccione un punto en el mapa*/
       iconUrl: '/Images/icons/map.webp',
       iconSize: [25, 35],
       iconAnchor: [18, 34],
@@ -49,20 +49,27 @@ export default class UbicacionesComponent implements AfterViewInit{
       
 
     this.map.zoomControl.remove();
-    const customIcon = L.icon({
-      iconUrl: '/Images/marker.webp',
-      iconSize: [34, 34],
-      iconAnchor: [18, 34],
-      popupAnchor: [0, -32]
-    });
+    
     
     
     this._reporteService.getUbicaciones().subscribe({
       next: (data: any[]) => {
-        const punteros: L.Marker[] = [];
-        
+        const punteros: L.Marker[] = [];        
 
         data.forEach((marcador) => {
+          const customIcon = L.divIcon({
+          className: 'custom-div-icon',
+          html: `            
+            <div>
+              <img src="/Images/marker.webp" style="width: 34px; height: 34px;"/>
+              <span>${marcador[0]}</span>
+            </div>
+          `,
+          iconUrl: '/Images/marker.webp',
+          iconSize: [34, 34],
+          iconAnchor: [18, 34],
+          popupAnchor: [0, -32]
+        });
           
           const puntero = L.marker([marcador[1], marcador[2]], { icon: customIcon });
           punteros.push(puntero);

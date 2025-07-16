@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject, signal } from '@angular/core';
 import { Observable, catchError, retry, throwError } from 'rxjs';
+import { shareReplay } from 'rxjs/operators';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -18,6 +20,7 @@ export class ReportesService {
   private urlCountByContenedor = this.host + '/contenedores/CountReportsByContainer';
   private urlgetContainerById = this.host + '/contenedores/getContainerById';
   private urlgetImgByName = this.host + '/contenedores/getImg';
+  private urlgetrankingContainer = this.host + '/reportes/rankingContainer';
 
   
   getReportesByEstatus(status: String): Observable<any> {
@@ -48,7 +51,7 @@ export class ReportesService {
   }
   
   getUbicaciones(): Observable<any> {
-    return this.http.get(this.urlUbicaciones).pipe(
+    return this.http.get(this.urlUbicaciones).pipe(      
       catchError((error) => {
         console.error('Error al obtener reportes:', error);
         return throwError(() => new Error('Error en la solicitud HTTP'));
@@ -116,5 +119,16 @@ export class ReportesService {
         }),
       );
     }
+
+
+    getRankingContainer():Observable<any>{
+      return this.http.get<any> (this.urlgetrankingContainer).pipe(
+        catchError((error) => {
+          console.error('Error al obtener el ranking');
+          return throwError(() => new Error('Error en la solicitud HTTP') );
+        })
+      )
+    }
+    
    
 }

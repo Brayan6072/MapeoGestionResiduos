@@ -6,7 +6,7 @@ export default[
     {
         path: "",
         
-        loadComponent: () => import("../auth/ui/mapa/mapa.component")
+        loadComponent: () => import("../auth/ui/home/mapa/mapa.component")
     },
     {
         path: "reportes/:contenedor",

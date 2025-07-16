@@ -92,5 +92,19 @@ public interface ReporteRepository extends JpaRepository<Reportes, Long> {
     List<Object[]> coutReportsIn6Hour();
 
 
+    @Query(value = "SELECT \n" +
+            "\tc.nombre AS contenedor,\n" +
+            "\tCOUNT(*) AS numero_reportes\n" +
+            " FROM reportes r\n" +
+            "JOIN\n" +
+            "\tlocalizacion_contenedores lc ON r.localizacion_contenedores_id = lc.id\n" +
+            "JOIN \n" +
+            "\tcontenedores c ON c.id = lc.contenedor_id\t\n" +
+            "JOIN clasificaciones cl ON lc.clasificacion_id = cl.id\n" +
+            "WHERE fecha >= CURDATE() - INTERVAL 2 MONTH\n" +
+            "GROUP BY c.nombre\n" +
+            "ORDER BY numero_reportes DESC;", nativeQuery = true)
+    List<Object[]> rankingContainer();
+
 
 }
